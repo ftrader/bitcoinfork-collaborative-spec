@@ -10,7 +10,7 @@
     Req. Rationale: A non-elective hard fork is needed as the majority of the
                     mining power is now under the control of a few individuals
                     who have refused to upgrade the block size limit.
-    Req. Notes: "It's own chain" means that post-trigger, the existing chain
+    Req. Notes: "its own chain" means that post-trigger, the existing chain
                 will no longer accept blocks of the forked chain and vice
                 versa. The trigger condition is described by a separate
                 requirement.
