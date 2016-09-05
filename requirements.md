@@ -1,5 +1,5 @@
-User requirements for Minimum Viable Hard Fork - Classic edition
-================================================================
+User requirements for Minimum Viable Hard Fork - Bitcoin Classic edition
+========================================================================
 
 Req. ID: MVHF-CLASSIC-USER-REQ-1
 Req. Origin: BTCfork
@@ -200,7 +200,7 @@ Req. Notes: Currently no known fork implementations do this, this would
 
 
 
-System requirements for Minimum Viable Hard Fork - Classic edition
-==================================================================
+System requirements for Minimum Viable Hard Fork - Bitcoin Classic edition
+==========================================================================
 
 TBD - These will be derived from the above user requirements.
