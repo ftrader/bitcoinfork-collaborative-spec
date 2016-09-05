@@ -1,7 +1,7 @@
 User requirements for Minimum Viable Hard Fork - Core edition
 =============================================================
 
-Req. ID: MVHF-USER-REQ-1
+Req. ID: MVHF-CORE-USER-REQ-1
 Req. Origin: BTCfork
 Req. Type: Functional
 Req. Title: NON-ELECTIVE HARD FORK TO SEPARATE CHAIN
@@ -16,7 +16,7 @@ Req. Notes: "It's own chain" means that post-trigger, the existing chain
             versa. The trigger condition is described by a separate 
             requirement.
 
-Req. ID: MVHF-USER-REQ-2
+Req. ID: MVHF-CORE-USER-REQ-2
 Req. Origin: BTCfork
 Req. Type: Functional
 Req. Title: TRIGGER CONDITION
@@ -31,8 +31,12 @@ Req. Rationale: SegWit activation allows for blocks with SegWit
                 the requirements for an MVF.
 Req. Notes: Satoshi described a hard fork at a predetermined block height 
             as a possible mechanism to allow bigger blocks again in future.
+            A Core-derived MVHF implementation including the additional 
+            SegWit trigger would not need the main SegWit functionality,
+            only the BIP9 activation logic and parameters compatible with
+            BIP141 deployment.
 
-Req. ID: MVHF-USER-REQ-3
+Req. ID: MVHF-CORE-USER-REQ-3
 Req. Origin: BTCfork
 Req. Type: Functional
 Req. Title: PERMIT BLOCK SIZE TO EXCEED ONE MEGABYTE
@@ -48,7 +52,7 @@ Req. Rationale: The historical limit of 1,000,000 was put in as an
 Req. Notes: The actual regulation of block size in the forked solution is 
             described by further requirements.
 
-Req. ID: MVHF-USER-REQ-4
+Req. ID: MVHF-CORE-USER-REQ-4
 Req. Origin: BTCfork
 Req. Type: Functional
 Req. Title: PERMIT BLOCK SIZE UP TO TWO MEGABYTES
@@ -81,7 +85,7 @@ Req. Notes: It is not established whether block sizes greater than 4MB
             use a safe enough static limit.
             [1] http://fc16.ifca.ai/bitcoin/papers/CDE+16.pdf
 
-Req. ID: MVHF-USER-REQ-5
+Req. ID: MVHF-CORE-USER-REQ-5
 Req. Origin: BTCfork
 Req. Type: Functional
 Req. Title: CLEAN NETWORK SEPARATION
@@ -99,7 +103,7 @@ Req. Notes: This is not currently done by any of the current Bitcoin hard
             there may be some risk of interference during the separation 
             manoeuvre. 
 
-Req. ID: MVHF-USER-REQ-6
+Req. ID: MVHF-CORE-USER-REQ-6
 Req. Origin: BTCfork
 Req. Type: Functional
 Req. Title: NEW SEEDS
@@ -119,7 +123,7 @@ Req. Notes: The list of seeds is unfortunately currently hardcoded.
             configuration file which could be adjusted without
             needing to rebuild executables.
 
-Req. ID: MVHF-USER-REQ-7
+Req. ID: MVHF-CORE-USER-REQ-7
 Req. Origin: BTCfork
 Req. Type: Functional
 Req. Title: DIFFICULTY RESET TO LOW VALUE
@@ -135,7 +139,7 @@ Req. Notes: The requirement for a difficulty reset is essentially
             independent of whether the Proof-of-Work (POW) function is 
             changed. This MVF does not mandate change of POW.
 
-Req. ID: MVHF-USER-REQ-8
+Req. ID: MVHF-CORE-USER-REQ-8
 Req. Origin: BTCfork
 Req. Type: Functional
 Req. Title: ADJUSTMENT OF DIFFICULTY RETARGETING PERIOD
@@ -156,7 +160,7 @@ Req. Notes: [2] primarily attacks which add a lot of hashpower to raise the
                 on the new chain (there may be other similar attacks 
                 enabled by too-slow difficulty adjustment)
 
-Req. ID: MVHF-USER-REQ-9
+Req. ID: MVHF-CORE-USER-REQ-9
 Req. Origin: BTCfork
 Req. Type: Functional
 Req. Title: REPLAY ATTACK PREVENTION
@@ -174,7 +178,7 @@ Req. Notes: A simple, but as yet untested proposal is the SIGHASH change
             proposal made by Iguana developer jl777 in [3].
             [3] https://steemit.com/bitcoin/@jl777/bitcoin-spinoff-fork-how-to-make-a-clean-fork-without-any-replay-attack-and-no-blockchain-visible-changes
 
-Req. ID: MVHF-USER-REQ-10
+Req. ID: MVHF-CORE-USER-REQ-10
 Req. Origin: BTCfork
 Req. Type: Functional
 Req. Title: BACKUP COPY OF PRE-FORK WALLET
