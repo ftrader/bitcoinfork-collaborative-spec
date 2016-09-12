@@ -30,7 +30,7 @@
     Title:          TRIGGER CONDITION
 
     Text:           The fork shall trigger at a specified block height or upon
-                    SegWit activation (75%), whichever is reached first.
+                    SegWit activation (95%), whichever is reached first.
 
     Rationale:      SegWit activation allows for blocks with SegWit
                     transactions on the network, and would require clients
@@ -40,12 +40,20 @@
                     the ledger. SegWit functionality is not seen as part of
                     the requirements for an MVF.
 
-    Notes:          Satoshi described a hard fork at a predetermined block height
+    Notes:          1. Satoshi described a hard fork at a predetermined block height
                     as a possible mechanism to allow bigger blocks again in future.
                     A Core-derived MVHF implementation including the additional
                     SegWit trigger would not need the main SegWit functionality,
                     only the BIP9 activation logic and parameters compatible with
                     BIP141 deployment.
+                    2. Once SegWit is released, the final code needs to be
+                    inspected to ensure that Core's implementation conforms
+                    to BIP9 in the sense that the 95% threshold is respected
+                    and it does not allow SW transactions to be relayed or
+                    mined into blocks prior to the SegWit soft-fork reaching
+                    ACTIVE state. Should this not be the case, the SegWit
+                    trigger condition in this requirement may need to be
+                    adjusted.
 ---
     Requirement:    MVHF-CORE-USER-REQ-3
 
