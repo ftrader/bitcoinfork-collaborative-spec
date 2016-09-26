@@ -20,6 +20,8 @@
                     will no longer accept blocks of the forked chain and vice
                     versa. The trigger condition is described by a separate
                     requirement.
+
+    Traceability:   To be completed
 ---
     Requirement:    MVHF-BU-USER-REQ-2
 
@@ -54,6 +56,8 @@
                     ACTIVE state. Should this not be the case, the SegWit
                     trigger condition in this requirement may need to be
                     adjusted.
+
+    Traceability:   To be completed
 ---
     Requirement:    MVHF-BU-USER-REQ-3
 
@@ -76,6 +80,8 @@
 
     Notes:          The actual regulation of block size in the forked solution is
                     described by further requirements.
+
+    Traceability:   To be completed
 ---
     Requirement:    MVHF-BU-USER-REQ-4
 
@@ -115,6 +121,8 @@
                     for simplicity the MVF should stick to proven technology and
                     use a safe enough static limit.
                     [1] http://fc16.ifca.ai/bitcoin/papers/CDE+16.pdf
+
+    Traceability:   To be completed
 ---
     Requirement:    MVHF-BU-USER-REQ-5
 
@@ -139,6 +147,8 @@
                     If peer connections are closed and re-opened during the fork,
                     there may be some risk of interference during the separation
                     manoeuvre.
+
+    Traceability:   To be completed
 ---
     Requirement:    MVHF-BU-USER-REQ-6
 
@@ -165,6 +175,8 @@
                     Ideally, seed data would be moved to a more easily manageable
                     configuration file which could be adjusted without
                     needing to rebuild executables.
+
+    Traceability:   To be completed
 ---
     Requirement:    MVHF-BU-USER-REQ-7
 
@@ -187,6 +199,8 @@
     Notes:          The requirement for a difficulty reset is essentially
                     independent of whether the Proof-of-Work (POW) function is
                     changed. This MVF does not mandate change of POW.
+
+    Traceability:   To be completed
 ---
     Requirement:    MVHF-BU-USER-REQ-8
 
@@ -214,6 +228,8 @@
                         difficulty, then withhold that hashpower to deny service
                         on the new chain (there may be other similar attacks
                         enabled by too-slow difficulty adjustment)
+
+    Traceability:   To be completed
 ---
     Requirement:    MVHF-BU-USER-REQ-9
 
@@ -238,6 +254,8 @@
     Notes:          A simple, but as yet untested proposal is the SIGHASH change
                     proposal made by Iguana developer jl777 in [3].
                     [3] https://steemit.com/bitcoin/@jl777/bitcoin-spinoff-fork-how-to-make-a-clean-fork-without-any-replay-attack-and-no-blockchain-visible-changes
+
+    Traceability:   To be completed
 ---
     Requirement:    MVHF-BU-USER-REQ-10
 
@@ -264,6 +282,8 @@
 
     Notes:          Currently no known fork implementations do this, this would
                     have to be developed from scratch.
+
+    Traceability:   To be completed
 
 # System requirements for Minimum Viable Hard Fork - Bitcoin Unlimited edition
 
