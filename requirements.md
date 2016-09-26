@@ -18,8 +18,7 @@
 
     Notes:          "its own chain" means that post-trigger, the existing chain
                     will no longer accept blocks of the forked chain and vice
-                    versa. The trigger condition is described by a separate
-                    requirement.
+                    versa. The trigger condition is described by MVHF-BU-USER-REQ-2.
 
     Traceability:   To be completed
 ---
@@ -287,4 +286,65 @@
 
 # System requirements for Minimum Viable Hard Fork - Bitcoin Unlimited edition
 
-TBD - These will be derived from the above user requirements.
+    Requirement:    MVHF-BU-SYS-REQ-1
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          NON-ELECTIVE HARD FORK TO SEPARATE CHAIN
+
+    Text:           The system shall enforce the creation of its own chain by
+                    separating from the existing chain upon the triggering of a
+                    non-elective condition.
+
+    Rationale:      refer to MVHF-BU-USER-REQ-1
+
+    Notes:          "Its own chain" means that post-trigger, the existing chain
+                    will no longer accept blocks of the forked chain and vice
+                    versa. The trigger condition is described by MVHF-BU-SYS-REQ-2.
+
+    Traceability:   MVHF-BU-USER-REQ-1
+---
+    Requirement:    MVHF-BU-SYS-REQ-2
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          TRIGGER CONDITION
+
+    Text:           The system shall trigger the fork at a specified block height or upon
+                    SegWit activation (95%), whichever is reached first.
+
+    Rationale:      refer to MVHF-BU-USER-REQ-2
+
+    Notes:          'Trigger the fork' means to initiate the actions that will separate
+                    the chains and enforce the updated consensus rules of the fork.
+
+    Traceability:   MVHF-BU-USER-REQ-2
+---
+    Requirement:    MVHF-BU-SYS-REQ-3
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          PERMIT BLOCK SIZE TO EXCEED ONE MEGABYTE
+
+    Text:           Upon triggering of the fork, the system shall enable
+                    blocks greater than 1,000,000 bytes.
+
+    Rationale:      refer to MVHF-BU-USER-REQ-3
+
+    Notes:          This requirement is already satisfied by Bitcoin Unlimited
+                    without requiring software changes (or indeed a fork).
+                    The user can simply set the appropriate parameters and
+                    miners would be able to mine blocks > 1MB, with the
+                    rest of the network accepting these larger blocks
+                    blocks according to their Acceptance Depth settings.
+                    This requirement can be tested by verifying that this
+                    emergent consensus mechanism still works correctly
+                    across the fork trigger conditions.
+
+    Traceability:   MVHF-BU-USER-REQ-3
