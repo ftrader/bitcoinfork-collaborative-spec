@@ -1,4 +1,15 @@
-# User requirements for Minimum Viable Hard Fork - Bitcoin Unlimited edition
+# Requirements for Minimum Viable Hard Fork - Bitcoin Unlimited edition
+
+Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
+
+##1. Contents <a id="1-contents"></a>
+
+1. [Contents](#1-contents)
+2. [User requirements](#2-user-reqs)
+3. [System requirements](#3-sys-reqs)
+4. [Software requirements](#4-sw-reqs)
+
+##2. User requirements <a id="2-user-reqs"></a>
 
     Requirement:    MVHF-BU-USER-REQ-1
 
@@ -302,7 +313,7 @@
 
     Traceability:   To be completed
 
-# System requirements for Minimum Viable Hard Fork - Bitcoin Unlimited edition
+##3. System requirements <a id="3-sys-reqs"></a>
 
     Requirement:    MVHF-BU-SYS-REQ-1
 
@@ -488,3 +499,47 @@
                     can be made precise in software requirements.
 
     Traceability:   MVHF-BU-USER-REQ-8
+---
+    Requirement:    MVHF-BU-SYS-REQ-9
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          REPLAY ATTACK PREVENTION
+
+    Text:           Upon triggering of the fork, the system shall emit
+                    and accept only modified signatures such that transactions
+                    signed by it will be mutually invalid with those signed
+                    on the existing chain.
+
+    Rationale:      refer to MVHF-BU-USER-REQ-9
+
+    Notes:          refer to MVHF-BU-USER-REQ-9
+
+    Traceability:   MVHF-BU-USER-REQ-9
+---
+    Requirement:    MVHF-BU-SYS-REQ-10
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          BACKUP COPY OF PRE-FORK WALLET
+
+    Text:           Upon triggering of the fork, the system shall create a
+                    backup of the wallet in use (or the default wallet if
+                    none is in use) in a new file. If the backup fails
+                    for any reason the software shall exit gracefully,
+                    preserving the existing (pre-fork) state of the wallet.
+
+    Rationale:      refer to MVHF-BU-USER-REQ-10
+
+    Notes:          -
+
+    Traceability:   MVHF-BU-USER-REQ-10
+
+
+##4. Software requirements <a id="4-sw-reqs"></a>
+
+To be completed.
