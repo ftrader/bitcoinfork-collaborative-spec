@@ -20,7 +20,7 @@
                     will no longer accept blocks of the forked chain and vice
                     versa. The trigger condition is described by MVHF-BU-USER-REQ-2.
 
-    Traceability:   To be completed
+    Traceability:   MVHF-BU-SYS-REQ-1
 ---
     Requirement:    MVHF-BU-USER-REQ-2
 
@@ -56,7 +56,7 @@
                     trigger condition in this requirement may need to be
                     adjusted.
 
-    Traceability:   To be completed
+    Traceability:   MVHF-BU-SYS-REQ-2
 ---
     Requirement:    MVHF-BU-USER-REQ-3
 
@@ -77,10 +77,14 @@
                     (and this requirement in particular) to overcome this
                     limitation and restore growth.
 
-    Notes:          The actual regulation of block size in the forked solution is
-                    described by further requirements.
+    Notes:          The regulation of block size in Bitcoin Unlimited is
+                    subject to emergent consensus.
+                    This requirement can be validated using a majority of
+                    miners configured to generate blocks > 1MB, and a
+                    majority of the nodes supporting relay of such blocks
+                    according to their Excessive Block Size setting.
 
-    Traceability:   To be completed
+    Traceability:   MVHF-BU-SYS-REQ-3
 ---
     Requirement:    MVHF-BU-USER-REQ-4
 
@@ -88,10 +92,10 @@
 
     Type:           Functional
 
-    Title:          PERMIT BLOCK SIZE UP TO TWO MEGABYTES
+    Title:          ENABLE BLOCK SIZE OF TWO MEGABYTES
 
-    Text:           Upon triggering, the fork shall statically raise the limit of
-                    block size to 2,000,000 bytes.
+    Text:           Upon triggering, the fork shall enable a block size
+                    of 2,000,000 bytes.
 
     Rationale:      A block size of 2MB is considered safe by all parties
                     (even the planned SegWit solution could effectively result
@@ -99,29 +103,43 @@
                     The Cornell study [1] has indicated that even sizes of up
                     to 4MB would be safe (at the time of the study - it is
                     likely that even greater sizes would be acceptable now).
-                    Raising the limit to a static 2MB is the simplest and most
+                    Raising the accepted block size to 2MB is the simplest and most
                     unproblematic immediate change, would relieve the urgent
-                    block size pressure, and could be followed up by a hardfork
-                    with a more sophisticated dynamic algorithm allowing
-                    greater (or even limited-only-by-infrastructure) block
-                    sizes.
-                    A conservative 2MB cap as a first step would also be
+                    block size pressure.
+                    If node operators on the fork network think it is safe to
+                    raise the accepted block sizes, they can simply adjust
+                    their client configurations after the fork has happened.
+                    A conservative 2MB setting as a first step would also be
                     suitable for clients which have not yet implemented
                     improved block propagation protocols such as Bitcoin
                     Unlimited's Xtreme Thinblocks or Core's Compact Blocks.
-                    As such it would make the MVF more accesible to wider
+                    As such it would make the MVF more accessible to wider
                     implementation in alternate clients (btcd + others).
 
-    Notes:          It is not established whether block sizes greater than 4MB
+    Notes:          1. Enabling a block size of 2MB implies that blocks
+                    up to this size can be mined and relayed without hindrance
+                    by MVF nodes. This can be achieved by appropriate setting
+                    of the default values for the EBS and MGS parameters,
+                    if necessary enforcing 2MB as a minimum value for
+                    the EBS and MGS parameters from the fork trigger onwards.
+                    It does not mean that 2MB is a hard limit from then on -
+                    there is no hard limit in a Bitcoin Unlimited network
+                    where accepted block size is regulated by EBS/AD
+                    settings on relaying nodes.
+                    2. As soon as the fork has happened, users of MVF will be
+                    in control of further evolution of the block size, by
+                    configuring the appropriate parameters (EBS, AD, MGS etc).
+                    3. It is not established whether block sizes greater than 4MB
                     would require protection in the form of a dynamic cap against
                     attempts to eliminate full nodes from the network through
                     persistent spam attacks (high volume of own transactions).
                     Mitigations against such selfish spamming are possible, but
                     for simplicity the MVF should stick to proven technology and
-                    use a safe enough static limit.
+                    use a safe enough initial consensus value for the post-fork
+                    block size.
                     [1] http://fc16.ifca.ai/bitcoin/papers/CDE+16.pdf
 
-    Traceability:   To be completed
+    Traceability:   MVHF-BU-SYS-REQ-4
 ---
     Requirement:    MVHF-BU-USER-REQ-5
 
@@ -147,7 +165,7 @@
                     there may be some risk of interference during the separation
                     manoeuvre.
 
-    Traceability:   To be completed
+    Traceability:   MVHF-BU-SYS-REQ-5
 ---
     Requirement:    MVHF-BU-USER-REQ-6
 
@@ -337,14 +355,136 @@
 
     Rationale:      refer to MVHF-BU-USER-REQ-3
 
-    Notes:          This requirement is already satisfied by Bitcoin Unlimited
+    Notes:          1. This requirement is already satisfied by Bitcoin Unlimited
                     without requiring software changes (or indeed a fork).
-                    The user can simply set the appropriate parameters and
-                    miners would be able to mine blocks > 1MB, with the
-                    rest of the network accepting these larger blocks
-                    blocks according to their Acceptance Depth settings.
-                    This requirement can be tested by verifying that this
-                    emergent consensus mechanism still works correctly
-                    across the fork trigger conditions.
+                    The node operators can simply set the appropriate
+                    parameters so that miners would mine blocks > 1MB,
+                    and other nodes could relay them immediately as long
+                    as they do not exceed their configured Excessive Block Size.
+                    This requirement can be tested by verifying the mining
+                    and relay of blocks slightly larger than 1MB after the
+                    fork has triggered.
+                    2. It is recommended to release the MVHF client with
+                    appropriate default settings (EBS, MGS) conducive to
+                    immediate formation (mining and relay) of a >1MB block in
+                    the forked chain.
 
     Traceability:   MVHF-BU-USER-REQ-3
+---
+    Requirement:    MVHF-BU-SYS-REQ-4
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          ENABLE BLOCK SIZE OF TWO MEGABYTES
+
+    Text:           Upon triggering, the system shall enable a block size
+                    of 2,000,000 bytes.
+
+    Rationale:      refer to MVHF-BU-USER-REQ-4
+
+    Notes:          1. Enabling a block size of 2MB implies that blocks
+                    up to this size can be mined and relayed without hindrance
+                    by MVF nodes. This can be achieved by appropriate setting
+                    of the default values for the EBS and MGS parameters,
+                    if necessary enforcing 2MB as a minimum value for
+                    the EBS and MGS parameters from the fork trigger onwards.
+                    It does not mean that 2MB is a hard limit from then on -
+                    there is no hard limit in a Bitcoin Unlimited network
+                    where accepted block size is regulated by EBS/AD
+                    settings on relaying nodes.
+                    2. As soon as the fork has happened, users of MVF will be
+                    in control of further evolution of the block size, by
+                    configuring the appropriate parameters (EBS, AD, MGS etc).
+
+    Traceability:   MVHF-BU-USER-REQ-4
+---
+    Requirement:    MVHF-BU-SYS-REQ-5
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          CLEAN NETWORK SEPARATION
+
+    Text:           Upon triggering, the system shall cleanly separate from
+                    the current Bitcoin network and prevent as much
+                    unnecessary processing as possible on both sides.
+
+    Rationale:      refer to MVHF-BU-USER-REQ-5
+
+    Notes:          The separation state (forked or not) should be persisted
+                    so that only the forked network is used after triggering.
+                    If "and never the twain shall meet" cannot be
+                    fully realized, then at least nodes of the different
+                    networks shall part ways as swiftly as possible.
+
+    Traceability:   MVHF-BU-USER-REQ-5
+---
+    Requirement:    MVHF-BU-SYS-REQ-6
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          NEW SEEDS
+
+    Text:           The system shall use a distinct set of DNS seeds.
+
+    Rationale:      refer to MVHF-BU-USER-REQ-6
+
+    Notes:          The list of seeds is currently hardcoded.
+                    Ideally, seed data would be moved to a more easily manageable
+                    configuration file which could be adjusted without
+                    needing to rebuild executables.
+
+    Traceability:   MVHF-BU-USER-REQ-6
+---
+    Requirement:    MVHF-BU-SYS-REQ-7
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          DIFFICULTY RESET TO LOW VALUE
+
+    Text:           Upon triggering of the fork, the system shall reset
+                    the difficulty to a low enough value so that the
+                    projected initial supporting hashpower would be able to
+                    mine a block on average every 10 minutes.
+
+    Rationale:      MVHF-BU-USER-REQ-7
+
+    Notes:          1. Need to obtain more data for projected initial
+                    supporting hashpower. A survey conducted earlier
+                    indicated a range between ~70-600TH/s, which great
+                    uncertainty in the commitments:
+                    https://np.reddit.com/r/btcfork/comments/4wwq70/who_has_miners_gathering_dust_and_would_be/
+                    in order to calibrate the difficulty reset.
+                    2. The reset to low difficulty also requires faster
+                    retargeting immediately after the fork, to compensate
+                    for rapid changes in hashpower.
+
+    Traceability:   MVHF-BU-USER-REQ-7
+---
+    Requirement:    MVHF-BU-SYS-REQ-8
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          ADJUSTMENT OF DIFFICULTY RETARGETING PERIOD
+
+    Text:           Upon triggering of the fork, the system shall reduce
+                    the difficulty retargeting period and deterministically
+                    recover to the current 2016 block (~2 week) adjustment
+                    period.
+
+    Rationale:      refer to MVHF-BU-USER-REQ-8
+
+    Notes:          A safe minimum retargeting period still has
+                    to be determined. The reduction and recovery requirements
+                    can be made precise in software requirements.
+
+    Traceability:   MVHF-BU-USER-REQ-8
