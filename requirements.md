@@ -193,7 +193,7 @@
                     configuration file which could be adjusted without
                     needing to rebuild executables.
 
-    Traceability:   To be completed
+    Traceability:   MVHF-BU-SYS-REQ-6
 ---
     Requirement:    MVHF-BU-USER-REQ-7
 
@@ -217,7 +217,7 @@
                     independent of whether the Proof-of-Work (POW) function is
                     changed. This MVF does not mandate change of POW.
 
-    Traceability:   To be completed
+    Traceability:   MVHF-BU-SYS-REQ-7
 ---
     Requirement:    MVHF-BU-USER-REQ-8
 
@@ -246,7 +246,7 @@
                         on the new chain (there may be other similar attacks
                         enabled by too-slow difficulty adjustment)
 
-    Traceability:   To be completed
+    Traceability:   MVHF-BU-SYS-REQ-8
 ---
     Requirement:    MVHF-BU-USER-REQ-9
 
