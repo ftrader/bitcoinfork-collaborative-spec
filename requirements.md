@@ -1,4 +1,15 @@
-# User requirements for Minimum Viable Hard Fork - Bitcoin Unlimited edition
+# Requirements for Minimum Viable Hard Fork - Bitcoin Unlimited edition
+
+Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
+
+##1. Contents <a id="1-contents"></a>
+
+1. [Contents](#1-contents)
+2. [User requirements](#2-user-reqs)
+3. [System requirements](#3-sys-reqs)
+4. [Software requirements](#4-sw-reqs)
+
+##2. User requirements <a id="2-user-reqs"></a>
 
     Requirement:    MVHF-BU-USER-REQ-1
 
@@ -302,7 +313,7 @@
 
     Traceability:   To be completed
 
-# System requirements for Minimum Viable Hard Fork - Bitcoin Unlimited edition
+##3. System requirements <a id="3-sys-reqs"></a>
 
     Requirement:    MVHF-BU-SYS-REQ-1
 
@@ -488,3 +499,7 @@
                     can be made precise in software requirements.
 
     Traceability:   MVHF-BU-USER-REQ-8
+
+##4. Software requirements <a id="4-sw-reqs"></a>
+
+To be completed.
