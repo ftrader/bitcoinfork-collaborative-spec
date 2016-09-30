@@ -444,8 +444,9 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
 
     Title:          CLEAN NETWORK SEPARATION
 
-    Text:           Upon triggering, the system shall cleanly separate from
-                    the current Bitcoin network and prevent as much
+    Text:           Upon triggering, the system shall ensure that both
+                    chains are clearly distinguishable and their networks
+                    separated from each other, to prevent as much
                     unnecessary processing as possible on both sides.
 
     Rationale:      refer to MVHF-BU-USER-REQ-5
