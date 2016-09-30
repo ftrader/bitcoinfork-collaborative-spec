@@ -537,9 +537,117 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
 
     Notes:          -
 
-    Traceability:   MVHF-BU-USER-REQ-10
+    Traceability:   MVHF-BU-USER-REQ-10, MVHF-BU-SW-REQ-10-1, MVHF-BU-SW-REQ-10-2,
+                    MVHF-BU-SW-REQ-10-3, MVHF-BU-SW-REQ-10-4, MVHF-BU-SW-REQ-10-5
 
 
 ##4. Software requirements <a id="4-sw-reqs"></a>
 
-To be completed.
+    Requirement:    MVHF-BU-SW-REQ-10-1
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          CONFIGURATION PARAMETER FOR WALLET BACKUP FILE LOCATION
+
+    Text:           The client shall allow the user to configure a file path
+                    where the wallet backup file shall be created when the
+                    fork is triggered.
+
+    Rationale:      It should be the user's choice to decide where to create
+                    the wallet backup. For safety reasons no switch is
+                    provided to disable the wallet backup.
+
+    Notes:          If the specified configuration value does not includes
+                    path separators, it is to be treated as a filename and
+                    the default path where a user wallet is located shall
+                    be used.
+                    If the specified configuration value includes path
+                    separators, the backup shall be created at that
+                    specified location (path + filename).
+
+    Traceability:   MVHF-BU-SYS-REQ-10
+---
+    Requirement:    MVHF-BU-SW-REQ-10-2
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          INITIATE WALLET BACKUP AFTER COMPLETION OF TRIGGER BLOCK PROCESSING
+
+    Text:           After processing the trigger block, the client shall
+                    initiate the wallet backup procedure.
+
+    Rationale:      The backup of the wallet can and should be done *after*
+                    the trigger block has been digested.
+
+    Notes:          This requirement needs to be verified by receiving some
+                    funds in the trigger block, and checking that they have
+                    been accounted for in the backed-up wallet.
+
+    Traceability:   MVHF-BU-SYS-REQ-10
+---
+    Requirement:    MVHF-BU-SW-REQ-10-3
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          WALLET BACKUP PROCEDURE - IF RUNNING WITH A WALLET IN USE
+
+    Text:           If running with a wallet in use, the client shall back up
+                    the wallet, ensuring that the application cannot write
+                    to it while performing the backup.
+
+    Rationale:      If a client is running with a wallet then it should be backed up.
+                    If wallet use is disabled (e.g. using --disable-wallet),
+                    there is no need to backup a wallet - in that case
+                    MVHF-BU-SW-REQ-10-4 applies.
+
+    Notes:          -
+
+    Traceability:   MVHF-BU-SYS-REQ-10
+---
+    Requirement:    MVHF-BU-SW-REQ-10-4
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          WALLET BACKUP PROCEDURE - IF RUNNING WITHOUT A WALLET
+
+    Text:           If running without a wallet, the client shall skip the
+                    wallet backup procedure.
+
+    Rationale:      If a client is not running with a wallet (e.g. using
+                    --disable-wallet), there is no need nor safe ability
+                    to perform the backup.
+
+    Notes:          There is no need to back up a wallet if none is in active
+                    use. In this case the user assumes responsibility for
+                    backing up any existing wallet files prior to using them
+                    with the client.
+
+    Traceability:   MVHF-BU-SYS-REQ-10
+---
+    Requirement:    MVHF-BU-SW-REQ-10-5
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          SAFE CLIENT SHUTDOWN IN CASE OF WALLET BACKUP FAILURE
+
+    Text:           If the wallet backup procedure (refer to
+                    MVHF-BU-SW-REQ-10-3) fails, the client shall perform a
+                    safe shutdown which preserves the state of the wallet
+                    prior to the fork.
+
+    Rationale:      Do not risk writing post-fork data to the wallet.
+
+    Notes:          -
+
+    Traceability:   MVHF-BU-SYS-REQ-10
+
