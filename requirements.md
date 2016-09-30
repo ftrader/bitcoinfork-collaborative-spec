@@ -283,7 +283,7 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
                     proposal made by Iguana developer jl777 in [3].
                     [3] https://steemit.com/bitcoin/@jl777/bitcoin-spinoff-fork-how-to-make-a-clean-fork-without-any-replay-attack-and-no-blockchain-visible-changes
 
-    Traceability:   To be completed
+    Traceability:   MVHF-BU-SYS-REQ-9
 ---
     Requirement:    MVHF-BU-USER-REQ-10
 
@@ -311,7 +311,7 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
     Notes:          Currently no known fork implementations do this, this would
                     have to be developed from scratch.
 
-    Traceability:   To be completed
+    Traceability:   MVHF-BU-SYS-REQ-10
 
 ##3. System requirements <a id="3-sys-reqs"></a>
 
