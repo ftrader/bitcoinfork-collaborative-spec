@@ -312,6 +312,31 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
                     have to be developed from scratch.
 
     Traceability:   MVHF-BU-SYS-REQ-10
+---
+    Requirement:    MVHF-BU-USER-REQ-11
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          CLEARLY DISTINGUISHABLE CLIENT IDENTIFICATION
+
+    Text:           Ensure that the fork client is distinguishable from the
+                    non-forked client to the user, both visually and how it
+                    identifies over the network.
+
+    Rationale:      Care must be taken to ensure that a user can easily
+                    distinguish the forked and non-forked software clients,
+                    otherwise usage errors may result (e.g. transacting with
+                    pre-fork coins on an unintended chain).
+
+    Notes:          The forked software should distinctly identify on startup,
+                    in graphical splash and help screens, when starting log
+                    files and when called with options to display its version
+                    information distinct version information, including when
+                    transmitting its user agent string over the network.
+
+    Traceability:   MVHF-BU-SYS-REQ-11
 
 ##3. System requirements <a id="3-sys-reqs"></a>
 
@@ -539,7 +564,32 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
 
     Traceability:   MVHF-BU-USER-REQ-10, MVHF-BU-SW-REQ-10-1, MVHF-BU-SW-REQ-10-2,
                     MVHF-BU-SW-REQ-10-3, MVHF-BU-SW-REQ-10-4, MVHF-BU-SW-REQ-10-5
+---
+    Requirement:    MVHF-BU-SYS-REQ-11
 
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          CLEARLY DISTINGUISHABLE SYSTEM IDENTIFICATION
+
+    Text:           The system shall ensure that clearly distinguishable
+                    identification is presented to the user in all necessary
+                    places, to prevent misidentification of the system by
+                    the user.
+
+    Rationale:      refer to MVHF-BU-USER-REQ-11
+
+    Notes:          Necessary places include (possibly non-exhaustive list):
+                    1. in the Graphical User Interface (GUI) splash screen
+                    and other places where the client version is indicated
+                    2. in log file messages during startup
+                    3. in the user agent string sent over the network
+                    4. in the RPC output calls that return version information
+                    5. in version information displayed by command line client
+                    programs on request
+
+    Traceability:   MVHF-BU-USER-REQ-11
 
 ##4. Software requirements <a id="4-sw-reqs"></a>
 
