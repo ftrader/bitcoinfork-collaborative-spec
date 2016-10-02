@@ -721,8 +721,9 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
                     7. in log file messages during startup
                     8. in the user agent string sent over the network
                     9. in the RPC output calls that return version information
-                    10. in help and version information displayed by command
-                        line client programs on request
+                    10. in help and version information displayed on request
+                        by command line client programs such as bitcoind,
+                        bitcoin-cli, and bitcoin-tx
 
     Rationale:      -
 
