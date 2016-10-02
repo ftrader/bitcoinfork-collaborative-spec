@@ -1,9 +1,6 @@
 Proposed requirements and design for Minimum Viable Hard Fork based on Bitcoin Unlimited
 ========================================================================================
 
-Overview
---------
-
 The requirements specification is in `requirements.md` in this folder.
 
 The design document is in `design.md`.
