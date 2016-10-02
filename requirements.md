@@ -590,7 +590,7 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
                     5. in version information displayed by command line client
                     programs on request
 
-    Traceability:   MVHF-BU-USER-REQ-11
+    Traceability:   MVHF-BU-USER-REQ-11, MVHF-BU-SW-REQ-11-1, MVHF-BU-SW-REQ-11-2
 
 ##4. Software requirements <a id="4-sw-reqs"></a>
 
@@ -701,4 +701,55 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
     Notes:          -
 
     Traceability:   MVHF-BU-SYS-REQ-10
+---
+    Requirement:    MVHF-BU-SW-REQ-11-1
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          CLEARLY DISTINGUISHABLE CLIENT NAME
+
+    Text:           The client shall clearly identify itself as 'MVF-BU'
+                    in the following places:
+                    1. in the GUI splash screen
+                    2. in the GUI title bar
+                    3. in the GUI 'About' menu entry under the 'Help' menu
+                    4. in the GUI 'About' dialog window (window title and version string)
+                    5. in the GUI 'Information' pane of the 'Help->Debug' window (client name and user agent)
+                    6. in the GUI 'Command line options' dialog under the 'Help' menu (client name)
+                    7. in log file messages during startup
+                    8. in the user agent string sent over the network
+                    9. in the RPC output calls that return version information
+                    10. in help and version information displayed on request
+                        by command line client programs such as bitcoind,
+                        bitcoin-cli, and bitcoin-tx
+
+    Rationale:      -
+
+    Notes:          The list above may still be missing some items.
+                    The graphical aspects of this requirement can be
+                    verified by demonstration.
+                    Log file / RPC information should be verified programmatically.
+
+    Traceability:   MVHF-BU-SYS-REQ-11
+---
+    Requirement:    MVHF-BU-SW-REQ-11-2
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          CLEARLY DISTINGUISHABLE DEBUG TRACES
+
+    Text:           The client shall prefix any new permanent debug
+                    traces using a recognisable tag such as 'MVF'.
+
+    Rationale:      -
+
+    Notes:          Since the client identifies itself as 'MVF-BU', the
+                    'BU' can be omitted from debug traces and 'MVF' should
+                    be sufficient.
+
+    Traceability:   MVHF-BU-SYS-REQ-11
 
