@@ -747,7 +747,7 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
     Rationale:      -
 
     Notes:          Since the client identifies itself as 'MVF-BU', the
-                    'BU' can be omitted from debug traces and 'MVU' should
+                    'BU' can be omitted from debug traces and 'MVF' should
                     be sufficient.
 
     Traceability:   MVHF-BU-SYS-REQ-11
