@@ -185,8 +185,8 @@ the proposed design changes.
 
 This section contains detailed design information on the MVF-BU changes.
 
-To be completed: Elements of the design need to be given unique 
-identifiers, so that they can be traced back to requirements and 
+To be completed: Elements of the design need to be given unique
+identifiers, so that they can be traced back to requirements and
 identified in the code.
 
 
@@ -241,7 +241,7 @@ where <blocknumber> is the height of the last block processed before
 the backup was made.
 
 If WABU_PARAMETER_NAME_PLACEHOLDER is specified but does not include
-path separators (OS-specific, e.g. forward slashes on UNIX, backward 
+path separators (OS-specific, e.g. forward slashes on UNIX, backward
 slashes on Windows), then it is treated as a simple filename and
 overrides the default backup filename schema above.
 
