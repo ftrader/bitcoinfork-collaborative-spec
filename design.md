@@ -338,10 +338,10 @@ the as the mainnet trigger height (which is itself a large value > 430,000)
 TODO: RPC output calls that return version information
 
 
-###5.6.4 Identification in log file messages (MVHF-BU-DES-IDME-4)
+###5.6.4 Identification in log file messages
 
 
-####5.6.4.1 Startup message
+####5.6.4.1 Startup message (MVHF-BU-DES-IDME-4)
 
 TODO: verify this is suitable
 
@@ -349,7 +349,7 @@ The client shall identify with the same string that the GUI 'Help->Debug'
 window displays for 'client name'.
 
 
-####5.6.4.2 Debug messages
+####5.6.4.2 Debug messages (MVHF-BU-DES-IDME-5)
 
 New or modified debug traces added in the software will use `MVF` as a
 prefix. 'BU' can be omitted because it will be visible from the beginning
@@ -379,8 +379,8 @@ MVHF-BU-SW-REQ-10-2 | TODO
 MVHF-BU-SW-REQ-10-3 | TODO
 MVHF-BU-SW-REQ-10-4 | TODO
 MVHF-BU-SW-REQ-10-5 | TODO
-MVHF-BU-SW-REQ-11-1 | TODO
-MVHF-BU-SW-REQ-11-2 | TODO
+MVHF-BU-SW-REQ-11-1 | MVHF-BU-DES-IDME-1,MVHF-BU-DES-IDME-2,MVHF-BU-DES-IDME-3,MVHF-BU-DES-IDME-4
+MVHF-BU-SW-REQ-11-2 | MVHF-BU-DES-IDME-5
 
 
 ###6.2 Design -> requirements
@@ -392,9 +392,11 @@ A design element could potentially cover multiple requirements, but
 this should be looked at carefully. With MVF-BU it should be highly
 unlikely to happen.
 
-Design element | Software requirement
+Design element(s) | Software requirement
 --- | ---
 MVHF-BU-DES-WABU-1 | MVHF-BU-SW-REQ-10-1
+MVHF-BU-DES-IDME-1,MVHF-BU-DES-IDME-2,MVHF-BU-DES-IDME-3,MVHF-BU-DES-IDME-4 | MVHF-BU-SW-REQ-11-1
+MVHF-BU-DES-IDME-5 | MVHF-BU-SW-REQ-11-2
 
 ---
 
