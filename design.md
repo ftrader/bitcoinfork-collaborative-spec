@@ -356,6 +356,14 @@ prefix. 'BU' can be omitted because it will be visible from the beginning
 of the log file that the client is 'MVF-BU'.
 
 
+###5.6.5 Identification in package/mountable disk volumes (MVHF-BU-DES-IDME-6)
+
+The identification in the Mac OSX diskimage volume label will be changed
+from `Bitcoin-Unlimited` to `Bitcoin-MVF-BU`.
+
+TODO: any other packages that need renaming?
+
+
 ##6. Requirements traceability <a id="6-req-traceability"></a>
 
 To be completed: traceability matrix between SW requirements and design
@@ -379,7 +387,7 @@ MVHF-BU-SW-REQ-10-2 | TODO
 MVHF-BU-SW-REQ-10-3 | TODO
 MVHF-BU-SW-REQ-10-4 | TODO
 MVHF-BU-SW-REQ-10-5 | TODO
-MVHF-BU-SW-REQ-11-1 | MVHF-BU-DES-IDME-1,MVHF-BU-DES-IDME-2,MVHF-BU-DES-IDME-3,MVHF-BU-DES-IDME-4
+MVHF-BU-SW-REQ-11-1 | MVHF-BU-DES-IDME-1,MVHF-BU-DES-IDME-2,MVHF-BU-DES-IDME-3,MVHF-BU-DES-IDME-4,MVHF-BU-DES-IDME-6
 MVHF-BU-SW-REQ-11-2 | MVHF-BU-DES-IDME-5
 
 
@@ -395,7 +403,7 @@ unlikely to happen.
 Design element(s) | Software requirement
 --- | ---
 MVHF-BU-DES-WABU-1 | MVHF-BU-SW-REQ-10-1
-MVHF-BU-DES-IDME-1,MVHF-BU-DES-IDME-2,MVHF-BU-DES-IDME-3,MVHF-BU-DES-IDME-4 | MVHF-BU-SW-REQ-11-1
+MVHF-BU-DES-IDME-1,MVHF-BU-DES-IDME-2,MVHF-BU-DES-IDME-3,MVHF-BU-DES-IDME-4,MVHF-BU-DES-IDME-6 | MVHF-BU-SW-REQ-11-1
 MVHF-BU-DES-IDME-5 | MVHF-BU-SW-REQ-11-2
 
 ---
