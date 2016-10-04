@@ -724,6 +724,7 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
                     10. in help and version information displayed on request
                         by command line client programs such as bitcoind,
                         bitcoin-cli, and bitcoin-tx
+                    11. in generated package/mountable disk volume names
 
     Rationale:      -
 
