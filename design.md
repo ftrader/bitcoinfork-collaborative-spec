@@ -126,14 +126,15 @@ Other references to be added.
 
 Item | Meaning
 --- | ---
-POW | proof of work
-MVF | Minimum Viable Fork
-HF | Hard Fork
-SegWit | Segregated Witness
-SW | Software
-SF | Soft fork
 BTC | Bitcoin
 BU | Bitcoin Unlimited (a Bitcoin full node client software)
+HF | Hard Fork
+HW | Hardware
+MVF | Minimum Viable Fork
+POW | proof of work
+SegWit | Segregated Witness
+SF | Soft fork
+SW | Software
 
 
 
@@ -185,8 +186,8 @@ the proposed design changes.
 
 This section contains detailed design information on the MVF-BU changes.
 
-To be completed: Elements of the design need to be given unique 
-identifiers, so that they can be traced back to requirements and 
+To be completed: Elements of the design need to be given unique
+identifiers, so that they can be traced back to requirements and
 identified in the code.
 
 
@@ -237,11 +238,11 @@ will be used:
 
     wallet.dat.mvf-bu_<blocknumber>.bak
 
-where <blocknumber> is the height of the last block processed before
+where `<blocknumber>` is the height of the last block processed before
 the backup was made.
 
 If WABU_PARAMETER_NAME_PLACEHOLDER is specified but does not include
-path separators (OS-specific, e.g. forward slashes on UNIX, backward 
+path separators (OS-specific, e.g. forward slashes on UNIX, backward
 slashes on Windows), then it is treated as a simple filename and
 overrides the default backup filename schema above.
 
@@ -284,11 +285,75 @@ Steps in wallet file backup procedure (tentative):
   4. close the backup file
   5. re-open the existing wallet file (to resume further operation)
 
-Note:
 
 ###5.6 Client identification (IDME)
 
-To be completed: clear identification of the client to the user/network
+NOTE: Care must be taken to preserve attribution to 'The Bitcoin Unlimited
+developers' and any comment strings referring to 'Bitcoin Unlimited' where
+it would not be appropriate to replace 'Unlimited' with MVF-BU.
+
+
+###5.6.1 Command line client identification (MVHF-BU-DES-IDME-1)
+
+Current BU command line client identify themselves when called with
+`--version` or `--help` (except `bitcoin-tx`, which does not understand the
+`--version` option).
+
+The following table shows how the output should be modified:
+
+Program     | BU  | MVF-BU
+---         | --- | ---
+bitcoind    | `Bitcoin Unlimited Daemon version v0.12.1.0-b0dfbf1` | `Bitcoin MVF-BU Daemon version v0.12.1.0-b0dfbf1`
+bitcoin-cli | `Bitcoin RPC client version v0.12.1.0-b0dfbf1` | `Bitcoin MVF-BU RPC client version v0.12.1.0-b0dfbf1`
+bitcoin-tx  | `Bitcoin bitcoin-tx utility version v0.12.1.0-b0dfbf1` | `Bitcoin MVF-BU bitcoin-tx utility version v0.12.1.0-b0dfbf1`
+
+
+###5.6.2 GUI client identification (MVHF-BU-DES-IDME-2)
+
+In the following locations in the GUI, the designation 'Bitcoin Unlimited'
+will be replaced by 'Bitcoin MVF-BU':
+1. splash screen
+2. main window title bar
+3. 'About' menu entry under the 'Help' menu
+4. 'About' dialog window (modify window title and version string)
+5. 'Information' pane of the 'Help->Debug' window (modify client name and user agent)
+6. 'Command line options' dialog under the 'Help' menu (modify client name)
+
+Where version information follows after the client name, this format shall be
+retained.
+
+
+###5.6.3 Identification on the network (MVHF-BU-DES-IDME-3)
+
+The `BitcoinUnlimited` in the BU user agent string shall be replaced with
+`MVF-BU`, e.g.
+
+BU: `/BitcoinUnlimited:0.12.1(EB16; AD4)/`
+MVF-BU: `/MVF-BU:0.12.1(EB2; AD999999)/`
+
+NOTE: As the value of the AD matter only after the fork has triggered, and can
+then be adjusted, it could be used to configured with the same value as
+the as the mainnet trigger height (which is itself a large value > 430,000)
+
+TODO: RPC output calls that return version information
+
+
+###5.6.4 Identification in log file messages
+
+
+####5.6.4.1 Startup message (MVHF-BU-DES-IDME-4)
+
+TODO: verify this is suitable
+
+The client shall identify with the same string that the GUI 'Help->Debug'
+window displays for 'client name'.
+
+
+####5.6.4.2 Debug messages (MVHF-BU-DES-IDME-5)
+
+New or modified debug traces added in the software will use `MVF` as a
+prefix. 'BU' can be omitted because it will be visible from the beginning
+of the log file that the client is 'MVF-BU'.
 
 
 ##6. Requirements traceability <a id="6-req-traceability"></a>
@@ -297,3 +362,41 @@ To be completed: traceability matrix between SW requirements and design
 
 Requires the design elements (in Detailed Design) to be identifiable so
 that we can match them to requirements.
+
+
+###6.1 Requirements -> design
+
+TODO: the list of SW requirements is still incomplete as they are
+still under elaboration.
+
+Each SW requirement should be covered by at least one design element,
+but there can be more than one design elements for a requirement.
+
+Requirement | Design elements
+--- | ---
+MVHF-BU-SW-REQ-10-1 | MVHF-BU-DES-WABU-1
+MVHF-BU-SW-REQ-10-2 | TODO
+MVHF-BU-SW-REQ-10-3 | TODO
+MVHF-BU-SW-REQ-10-4 | TODO
+MVHF-BU-SW-REQ-10-5 | TODO
+MVHF-BU-SW-REQ-11-1 | MVHF-BU-DES-IDME-1,MVHF-BU-DES-IDME-2,MVHF-BU-DES-IDME-3,MVHF-BU-DES-IDME-4
+MVHF-BU-SW-REQ-11-2 | MVHF-BU-DES-IDME-5
+
+
+###6.2 Design -> requirements
+
+No design element should be untraceable - each one should lead back to
+at least one SW requirement.
+
+A design element could potentially cover multiple requirements, but
+this should be looked at carefully. With MVF-BU it should be highly
+unlikely to happen.
+
+Design element(s) | Software requirement
+--- | ---
+MVHF-BU-DES-WABU-1 | MVHF-BU-SW-REQ-10-1
+MVHF-BU-DES-IDME-1,MVHF-BU-DES-IDME-2,MVHF-BU-DES-IDME-3,MVHF-BU-DES-IDME-4 | MVHF-BU-SW-REQ-11-1
+MVHF-BU-DES-IDME-5 | MVHF-BU-SW-REQ-11-2
+
+---
+
