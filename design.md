@@ -318,6 +318,7 @@ will be replaced by 'Bitcoin MVF-BU':
 4. 'About' dialog window (modify window title and version string)
 5. 'Information' pane of the 'Help->Debug' window (modify client name and user agent)
 6. 'Command line options' dialog under the 'Help' menu (modify client name)
+7. dialog windows
 
 Where version information follows after the client name, this format shall be
 retained.
