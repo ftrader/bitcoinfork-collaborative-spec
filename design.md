@@ -330,6 +330,8 @@ will be replaced by 'Bitcoin MVF-BU':
 4. 'About' dialog window (modify window title and version string)
 5. 'Information' pane of the 'Help->Debug' window (modify client name and user agent)
 6. 'Command line options' dialog under the 'Help' menu (modify client name)
+7. dialog windows
+8. in the system tray icon
 
 Where version information follows after the client name, this format shall be
 retained.
@@ -347,8 +349,10 @@ NOTE: As the value of the AD matter only after the fork has triggered, and can
 then be adjusted, it could be used to configured with the same value as
 the as the mainnet trigger height (which is itself a large value > 430,000)
 
-TODO: RPC output calls that return version information
+The `getnetworkinfo` RPC call output shall be changed in similar manner:
 
+BU: `/BitcoinUnlimited:x.x.x/`
+MVF-BU: `/MVF-BU:x.x.x`
 
 ###5.6.4 Identification in log file messages
 
