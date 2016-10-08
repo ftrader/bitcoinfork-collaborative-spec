@@ -196,6 +196,18 @@ identified in the code.
 To be completed: fork triggering (changing between old/new consensus rules)
 
 
+####5.1.1 Extracted common definitions (MVHF-BU-DES-TRIG-1)
+
+Certain parameters and functions that are needed in various other files
+will be extracted into two files:
+
+- mvf-bu.h
+- mvf-bu.cpp
+
+This is following Bitcoin Unlimited's coding guide to make incorporating
+changes from other clients easier.
+
+
 ###5.2 Network Separation (NSEP)
 
 To be completed: network separation actions
