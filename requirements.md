@@ -265,14 +265,14 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
 
     Type:           Functional
 
-    Title:          REPLAY ATTACK PREVENTION
+    Title:          TRANSACTION REPLAY PREVENTION
 
     Text:           Upon triggering, the fork shall modify signatures for
                     transactions conducted on its chain such that these transactions
                     will be invalid on the existing chain, in order to prevent
-                    replay attacks.
+                    transaction replay.
 
-    Rationale:      Replay attacks (where a malicious bridge can forward
+    Rationale:      Transaction replay (where a malicious bridge can forward
                     transactions made on one chain to another, causing a loss
                     of transactional independence between the chains) have
                     been shown to be disruptive to the ecosystem e.g. in the
@@ -532,7 +532,7 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
 
     Type:           Functional
 
-    Title:          REPLAY ATTACK PREVENTION
+    Title:          TRANSACTION REPLAY PREVENTION
 
     Text:           Upon triggering of the fork, the system shall emit
                     and accept only modified signatures such that transactions
