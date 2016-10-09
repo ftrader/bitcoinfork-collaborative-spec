@@ -198,8 +198,8 @@ To be completed: fork triggering (changing between old/new consensus rules)
 
 ####5.1.1 Extracted common definitions (MVHF-BU-DES-TRIG-1)
 
-Certain parameters and functions that are needed in various other files
-will be extracted into two files:
+Certain TRIG-related parameters and functions that are needed in
+other files will be extracted into the MVF-BU specific files:
 
 - mvf-bu.h
 - mvf-bu.cpp
@@ -207,10 +207,24 @@ will be extracted into two files:
 This is following Bitcoin Unlimited's coding guide to make incorporating
 changes from other clients easier.
 
+The TRIG-related parameters to be placed into the common files:
+
+- block triggering heights for the various networks (mainnet, testnet, regtestnet, nolnet)
+
 
 ###5.2 Network Separation (NSEP)
 
 To be completed: network separation actions
+
+
+####5.2.1 Extracted common definitions (MVHF-BU-DES-NSEP-1)
+
+The following NSEP-related parameters and functions that are needed in
+other files will be extracted into MVF-BU specific common files:
+
+- default value for post-fork network port
+
+See 5.1.1 (TODO: check reference accuracy) for description of the common files.
 
 
 ###5.3 Difficulty Adjustment (DIAD)
@@ -218,9 +232,30 @@ To be completed: network separation actions
 To be completed: difficulty adjustment (reset and algorithm to revert back to old behaviour)
 
 
+####5.3.1 Extracted common definitions (MVHF-BU-DES-DIAD-1)
+
+The following DIAD-related parameters and functions that are needed in
+other files will be extracted into the MVF-BU specific common files:
+
+- TODO: DIAD parameters
+
+See 5.1.1 (TODO: check reference accuracy) for description of the common files.
+
+
 ###5.4 Change of Transaction Signatures (CSIG)
 
 To be completed: signature change (for replay protection)
+
+
+####5.4.1 Extracted common definitions (MVHF-BU-DES-CSIG-1)
+
+The following CSIG-related parameters and functions that are needed in
+other files will be extracted into the MVF-BU specific common files:
+
+- default value for fork ID (mask which is ORed with SIGHASH constants)
+
+See 5.1.1 (TODO: check reference accuracy) for description of the common files.
+
 
 
 ###5.5 Wallet Backup (WABU)
@@ -228,7 +263,17 @@ To be completed: signature change (for replay protection)
 To be completed: automated backup of pre-fork wallet state
 
 
-###5.5.1 Configuration for wallet backup (MVHF-BU-DES-WABU-1)
+####5.5.1 Extracted common definitions (MVHF-BU-DES-WABU-1)
+
+The following WABU-related parameters and functions that are needed in
+other files will be extracted into the MVF-BU specific common files:
+
+- TODO: WABU parameters
+
+See 5.1.1 (TODO: check reference accuracy) for description of the common files.
+
+
+###5.5.1 Configuration for wallet backup (MVHF-BU-DES-WABU-2)
 
 A new optional parameter (config file + command line argument) will be added
 which will allow the user to specify a location (file path and name)
@@ -398,13 +443,17 @@ but there can be more than one design elements for a requirement.
 
 Requirement | Design elements
 --- | ---
-MVHF-BU-SW-REQ-10-1 | MVHF-BU-DES-WABU-1
+MVHF-BU-SW-REQ-10-1 | MVHF-BU-DES-WABU-1, MVHF-BU-DES-WABU-2
 MVHF-BU-SW-REQ-10-2 | TODO
 MVHF-BU-SW-REQ-10-3 | TODO
 MVHF-BU-SW-REQ-10-4 | TODO
 MVHF-BU-SW-REQ-10-5 | TODO
 MVHF-BU-SW-REQ-11-1 | MVHF-BU-DES-IDME-1,MVHF-BU-DES-IDME-2,MVHF-BU-DES-IDME-3,MVHF-BU-DES-IDME-4,MVHF-BU-DES-IDME-6
 MVHF-BU-SW-REQ-11-2 | MVHF-BU-DES-IDME-5
+TODO (software reqs) | MVHF-BU-DES-TRIG-1
+TODO (software reqs) | MVHF-BU-DES-NSEP-1
+TODO (software reqs) | MVHF-BU-DES-DIAD-1
+TODO (software reqs) | MVHF-BU-DES-CSIG-1
 
 
 ###6.2 Design -> requirements
@@ -418,9 +467,13 @@ unlikely to happen.
 
 Design element(s) | Software requirement
 --- | ---
-MVHF-BU-DES-WABU-1 | MVHF-BU-SW-REQ-10-1
+MVHF-BU-DES-WABU-1, MVHF-BU-DES-WABU-2 | MVHF-BU-SW-REQ-10-1
 MVHF-BU-DES-IDME-1,MVHF-BU-DES-IDME-2,MVHF-BU-DES-IDME-3,MVHF-BU-DES-IDME-4,MVHF-BU-DES-IDME-6 | MVHF-BU-SW-REQ-11-1
 MVHF-BU-DES-IDME-5 | MVHF-BU-SW-REQ-11-2
+MVHF-BU-DES-TRIG-1 | TODO (software reqs)
+MVHF-BU-DES-NSEP-1 | TODO (software reqs)
+MVHF-BU-DES-DIAD-1 | TODO (software reqs)
+MVHF-BU-DES-CSIG-1 | TODO (software reqs)
 
 ---
 
