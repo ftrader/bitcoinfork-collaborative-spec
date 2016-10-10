@@ -262,7 +262,7 @@ To be completed: difficulty adjustment (reset and algorithm to revert back to ol
 The following DIAD-related parameters and functions that are needed in
 other files will be extracted into the MVF-BU specific common files:
 
-- TODO: DIAD parameters
+- difficulty reset value for various networks (mainnet, testnet, regtestnet, nolnet)
 
 See 5.1.1 (TODO: check reference accuracy) for description of the common files.
 
