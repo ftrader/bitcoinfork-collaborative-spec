@@ -224,11 +224,11 @@ https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki#Deployment).
 
 ####5.1.3 New consensus parameters for fixed trigger height (MVHF-BU-DES-TRIG-3)
 
-A new consensus parameter, nMVFActivateSizeForkHeight, shall be added in
+A new consensus parameter, nMVFActivateForkHeight, shall be added in
 params.h / chainparams.cpp, and initialized with the default trigger heights
 according to each network, as defined in mvf-bu.h .
 
-An access function MVFActivateSizeForkHeight() return a constant object
+An access function MVFActivateForkHeight() return a constant object
 will also be provided.
 
 TODO: get rid of Classic's SizeForkExpiration() consensus parameter?
