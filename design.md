@@ -212,6 +212,31 @@ The TRIG-related parameters to be placed into the common files:
 - block triggering heights for the various networks (mainnet, testnet, regtestnet, nolnet)
 
 
+####5.1.2 Addition of BIP9 SegWit parameters (MVHF-BU-DES-TRIG-2)
+
+BIP9 deployment parameters for SegWit soft-fork activation will be added in
+params.h / chainparams.cpp .
+
+The precise values are still incompletely specified by Bitcoin Core's BIP141
+(at the time of writing, the mainnet start time is listed as "TBD" in
+https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki#Deployment).
+
+
+####5.1.3 New consensus parameters for fixed trigger height (MVHF-BU-DES-TRIG-3)
+
+A new consensus parameter, nMVFActivateForkHeight, shall be added in
+params.h / chainparams.cpp, and initialized with the default trigger heights
+according to each network, as defined in mvf-bu.h .
+
+An access function MVFActivateForkHeight() return a constant object
+will also be provided.
+
+TODO: get rid of Classic's SizeForkExpiration() consensus parameter?
+Removal is probably not needed, more important that code differences are kept
+minimal.
+
+
+
 ###5.2 Network Separation (NSEP)
 
 To be completed: network separation actions
@@ -237,7 +262,7 @@ To be completed: difficulty adjustment (reset and algorithm to revert back to ol
 The following DIAD-related parameters and functions that are needed in
 other files will be extracted into the MVF-BU specific common files:
 
-- TODO: DIAD parameters
+- difficulty reset value for various networks (mainnet, testnet, regtestnet, nolnet)
 
 See 5.1.1 (TODO: check reference accuracy) for description of the common files.
 
