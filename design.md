@@ -224,17 +224,66 @@ https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki#Deployment).
 
 ####5.1.3 New consensus parameters for fixed trigger height (MVHF-BU-DES-TRIG-3)
 
-A new consensus parameter, nMVFActivateForkHeight, shall be added in
+A new consensus parameter, nMVFActivateForkHeight, will be added in
 params.h / chainparams.cpp, and initialized with the default trigger heights
 according to each network, as defined in mvf-bu.h .
 
 An access function MVFActivateForkHeight() return a constant object
-will also be provided.
+will also be provided. (TODO: not needed?)
 
 TODO: get rid of Classic's SizeForkExpiration() consensus parameter?
 Removal is probably not needed, more important that code differences are kept
 minimal.
 
+
+####5.1.4 New global variable for command line trigger height (MVHF-BU-DES-TRIG-4)
+
+A new command line/configuration file parameter, `forkheight`, will be added.
+It will be initialized with the default trigger height according to the
+active network, as determined at runtime.
+The value of forkheight will be subject to minimum fork height checks
+(validity checks) upon startup. Specifying an invalid value will lead to
+non-startup (i.e. controlled shutdown of the application during startup).
+The active fork height value will be stored in a global variable
+(FinalActivateForkHeight) accessible from various parts of the code.
+
+
+####5.1.5 New global variable for fork trigger state (MVHF-BU-DES-TRIG-5)
+
+A new boolean global variable, isMVFHardForkActive, will be added to
+track the activation state of the fork.
+It will be initialized to false and set to true when the block height of
+the active chain is at least equal to `FinalActivateForkHeight`.
+When the variable transitions to true, fork activation actions will be
+performed.
+If a re-org happens and the height of the active chain drops below the
+`FinalActivateForkHeight`, fork deactivation actions will be performed
+(i.e. reversion to pre-fork consensus rules).
+
+
+####5.1.6 Fork activation procedure (MVHF-BU-DES-TRIG-6)
+
+TODO: elaborate
+
+1. network separation actions (NSEP)
+2. difficulty reset and initialization of recovery algorithm (DIAD)
+3. activation of modified SIGHASH values (CSIG)
+4. set isMVFHardForkActive to true
+
+
+####5.1.7 Fork deactivation procedure (MVHF-BU-DES-TRIG-7)
+
+To be completed. It is anticipated that no network separation actions
+need to be undone (if anything, the whole fork network performs a re-org
+to below the fork height together).
+This leaves the consensus rules that may need to be reverted to pre-fork
+conditions.
+
+TODO: elaborate
+
+1. difficulty back to pre-fork, reset of recovery algorithm (DIAD)
+2. revert to pre-fork SIGHASH values (CSIG)
+3. set isMVFHardForkActive to false
 
 
 ###5.2 Network Separation (NSEP)
@@ -293,20 +342,23 @@ To be completed: automated backup of pre-fork wallet state
 The following WABU-related parameters and functions that are needed in
 other files will be extracted into the MVF-BU specific common files:
 
-- TODO: WABU parameters
+- autoWalletBackupSuffix: the default wallet backup filename suffix
 
 See 5.1.1 (TODO: check reference accuracy) for description of the common files.
 
 
 ###5.5.1 Configuration for wallet backup (MVHF-BU-DES-WABU-2)
 
-A new optional parameter (config file + command line argument) will be added
-which will allow the user to specify a location (file path and name)
-where WABU will create the wallet backup copy.
+Two new new optional parameters will be added (config file + command line
+arguments) which will allow the user to specify
 
-The name of the parameter shall be: WABU_PARAMETER_NAME_PLACEHOLDER
+1. `autobackupwalletpath`: the location (file path and/or name) of wallet backup
+2. `autobackupblock`: the block number at which to perform the backup
 
-If WABU_PARAMETER_NAME_PLACEHOLDER is not configured, the default shall
+The `autobackupblock` will default to `(forkheight-1)`, i.e. the block
+before the fork activates and the new consensus rules come into force.
+
+If `autobackupwalletpath` is not configured, the default shall
 be to store the wallet backup in the same location as the wallet.dat file
 is stored on the user's system by default:
 
@@ -318,17 +370,17 @@ is stored on the user's system by default:
 If no backup wallet filename is specified, then a default backup filename
 will be used:
 
-    wallet.dat.mvf-bu_<blocknumber>.bak
+    wallet.dat.auto.<blocknumber>.bak
 
 where `<blocknumber>` is the height of the last block processed before
 the backup was made.
 
-If WABU_PARAMETER_NAME_PLACEHOLDER is specified but does not include
+If `autobackupwalletpath` is specified but does not include
 path separators (OS-specific, e.g. forward slashes on UNIX, backward
 slashes on Windows), then it is treated as a simple filename and
 overrides the default backup filename schema above.
 
-If the user does not specify a path in WABU_PARAMETER_NAME_PLACEHOLDER,
+If the user does not specify a path in `autobackupwalletpath`,
 then the default wallet path is used, but if the client is running with
 a non-standard `datadir`, then that `datadir` shall be used when creating
 the backup.
@@ -346,21 +398,24 @@ wallet backup has been skipped.
 
 ###5.5.2 Triggering of the wallet file backup
 
-The automatic wallet backup is enabled by default. The wallet backup will 
-be initiated just before the hard fork's new consensus rules are activated. 
-This is at the end of the processing of the block preceding the MVHF fork 
-block height. So the automatic backup triggers after the fork block - 1 
-becomes the best block and before the fork block. This is configured by making 
-a default value for a new command line parameter called -autobackupblock.
+The automatic wallet backup is enabled by default. The wallet backup will
+be initiated just before the hard fork's new consensus rules are activated.
+This is at the end of the processing of the block preceding the fork
+block height (FinalActivateForkHeight). So the automatic backup triggers
+after the (fork block - 1) becomes the best block and before the fork block.
+This is configured by the default value for `-autobackupblock`.
 After the fork this parameter could be used to trigger future backups by
-overriding with a custom value. 
+overriding with a custom value.
 
 The default name for the backup file is the same as the current file with
-a new suffix: ".auto.@.bak" where @ is the -autobackupblock value. Otherwise 
-the filename maybe customized via a new command line parameter called
--autobackupwalletpath.
+a new suffix: ".auto.@.bak" where @ is the `-autobackupblock` value.
+Otherwise the filename maybe customized via a new command line parameter
+called `-autobackupwalletpath`.
+
 
 ###5.5.3 Procedure to create the wallet file backup
+
+TODO: adapt this description to what actually takes place
 
 The procedure is roughly envisaged as follows:
 
