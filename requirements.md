@@ -818,14 +818,14 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
 
     Title:          CONFIGURATION PARAMETER FOR WALLET BACKUP BLOCK
 
-    Text:           The client shall allow the user to configure a block 
+    Text:           The client shall allow the user to configure a block
                     number which shall trigger an automated backup.
 
     Rationale:      For testing purposes its very useful to define a block number
                     for automatic backup since the fork block is not yet known.
                     After the fork the user may use this to trigger further automated backups.
 
-    Notes:          This parameter is optional and will default to the fork block 
+    Notes:          This parameter is optional and will default to the fork block
                     if omitted.
 
     Traceability:   MVHF-BU-SYS-REQ-10
