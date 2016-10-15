@@ -346,15 +346,19 @@ wallet backup has been skipped.
 
 ###5.5.2 Triggering of the wallet file backup
 
-The wallet backup will be initiated at the same time that the hard fork's
-new consensus rules are activated.
+The automatic wallet backup is enabled by default. The wallet backup will 
+be initiated just before the hard fork's new consensus rules are activated. 
+This is at the end of the processing of the block preceding the MVHF fork 
+block height. So the automatic backup triggers after the fork block - 1 
+becomes the best block and before the fork block. This is configured by making 
+a default value for a new command line parameter called -autobackupblock.
+After the fork this parameter could be used to trigger future backups by
+overriding with a custom value. 
 
-TODO: This may be at the end of the processing of the block preceding the
-MVF's fork height, or at the end of the block with said fork height. This
-must be made more precise.
-
-TODO: complete design info on the triggering implementation
-
+The default name for the backup file is the same as the current file with
+a new suffix: ".auto.@.bak" where @ is the -autobackupblock value. Otherwise 
+the filename maybe customized via a new command line parameter called
+-autobackupwalletpath.
 
 ###5.5.3 Procedure to create the wallet file backup
 
