@@ -358,7 +358,7 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
                     will no longer accept blocks of the forked chain and vice
                     versa. The trigger condition is described by MVHF-BU-SYS-REQ-2.
 
-    Traceability:   MVHF-BU-USER-REQ-1
+    Traceability:   MVHF-BU-USER-REQ-1, MVHF-BU-SW-REQ-1-1, MVHF-BU-SW-REQ-1-2
 ---
     Requirement:    MVHF-BU-SYS-REQ-2
 
@@ -376,7 +376,8 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
     Notes:          'Trigger the fork' means to initiate the actions that will separate
                     the chains and enforce the updated consensus rules of the fork.
 
-    Traceability:   MVHF-BU-USER-REQ-2
+    Traceability:   MVHF-BU-USER-REQ-2, MVHF-BU-SW-REQ-2-1, MVHF-BU-SW-REQ-2-2
+                    MVHF-BU-SW-REQ-2-3
 ---
     Requirement:    MVHF-BU-SYS-REQ-3
 
@@ -594,6 +595,113 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
 
 ##4. Software requirements <a id="4-sw-reqs"></a>
 
+    Requirement:    MVHF-BU-SW-REQ-1-1
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          ALLOW CLIENT TO SPECIFY FORK PARAMETERS
+
+    Text:           The client shall allow the user to specify the following
+                    parameters which contribute to the creation of the
+                    separate chain:
+                    - fixed fork height
+                    - network port which fork network nodes will listen on after fork triggering
+                    - fork ID to use for signature change
+
+    Rationale:      Extracting the fork parameters to user configuration will
+                    allow for easier testing without recompilation.
+
+    Notes:          These parameters shall be accessible via command line
+                    arguments and configuration file values, and default
+                    values will be preconfigured.
+                    Additional parameters considered but not included at this
+                    time for minimality reasons are:
+                    - fork block version
+                    - fork network protocol version
+                    - fork transaction version
+                    Some of these may still prove to be necessary to
+                    include among the MVF parameters.
+
+    Traceability:   MVHF-BU-SYS-REQ-1
+---
+    Requirement:    MVHF-BU-SW-REQ-1-2
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          CHANGE BETWEEN PRE-FORK AND POST-FORK CONSENSUS AS NEEDED
+
+    Text:           The client shall switch between the pre-fork and
+                    post-fork consensus rules as appropriate according to
+                    the conditions prevalent on the active chain.
+
+    Rationale:      Reorganizations make it necessary for the client to
+                    be able to switch between pre- and post-fork consensus
+                    rules.
+
+    Notes:          No switching back to the pre-fork network is anticipated.
+
+    Traceability:   MVHF-BU-SYS-REQ-1
+---
+    Requirement:    MVHF-BU-SW-REQ-2-1
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          TRIGGER ON ARRIVAL AT SPECIFIED BLOCK HEIGHT
+
+    Text:           The client shall trigger the fork when the height of
+                    the active chain reaches the configured fixed trigger height.
+
+    Rationale:      This fulfils the fixed trigger part of the system requirement.
+
+    Notes:          If no block height is specified, a preconfigured default
+                    will be used which depends on the network in use.
+
+    Traceability:   MVHF-BU-SYS-REQ-2
+---
+    Requirement:    MVHF-BU-SW-REQ-2-2
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          TRIGGER ON ACTIVATION OF SEGWIT
+
+    Text:           The client shall trigger the fork when the SegWit
+                    soft-fork is activated.
+
+    Rationale:      This fulfils the SegWit part of the system requirement.
+
+    Notes:          SegWit (BIP141) deployment parameters are not entirely
+                    finalized.
+                    They may need to be approximated for test purposes.
+
+    Traceability:   MVHF-BU-SYS-REQ-2
+---
+    Requirement:    MVHF-BU-SW-REQ-2-3
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          MAINTAIN FORK ACTIVATION STATE
+
+    Text:           The client shall maintain a state variable describing
+                    whether the fork is active.
+
+    Rationale:      This will be used in code paths where the new consensus
+                    rules need to be applied depending on whether the fork
+                    is active or not.
+
+    Notes:          -
+
+    Traceability:   MVHF-BU-SYS-REQ-2
+---
     Requirement:    MVHF-BU-SW-REQ-10-1
 
     Origin:         BTCfork
@@ -710,14 +818,14 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
 
     Title:          CONFIGURATION PARAMETER FOR WALLET BACKUP BLOCK
 
-    Text:           The client shall allow the user to configure a block 
+    Text:           The client shall allow the user to configure a block
                     number which shall trigger an automated backup.
 
     Rationale:      For testing purposes its very useful to define a block number
                     for automatic backup since the fork block is not yet known.
                     After the fork the user may use this to trigger further automated backups.
 
-    Notes:          This parameter is optional and will default to the fork block 
+    Notes:          This parameter is optional and will default to the fork block
                     if omitted.
 
     Traceability:   MVHF-BU-SYS-REQ-10
