@@ -286,6 +286,12 @@ TODO: elaborate
 3. set isMVFHardForkActive to false
 
 
+####5.1.8 Help information about new configuration parameters (MVHF-BU-DES-TRIG-8)
+
+Help text listing the MVF-BU specific new parameters and their allowed
+values will be added to the output of the `--help` option, as is customary.
+
+
 ###5.2 Network Separation (NSEP)
 
 To be completed: network separation actions
@@ -529,6 +535,7 @@ Requirement | Design elements
 --- | ---
 MVHF-BU-SW-REQ-1-1 | MVHF-BU-DES-TRIG-1,MVHF-BU-DES-TRIG-3
 MVHF-BU-SW-REQ-1-2 | MVHF-BU-DES-TRIG-5,MVHF-BU-DES-TRIG-7
+MVHF-BU-SW-REQ-1-3 | MVHF-BU-DES-TRIG-8
 MVHF-BU-SW-REQ-2-1 | MVHF-BU-DES-TRIG-3,MVHF-BU-DES-TRIG-4,MVHF-BU-DES-TRIG-6
 MVHF-BU-SW-REQ-2-2 | MVHF-BU-DES-TRIG-2,MVHF-BU-DES-TRIG-6
 MVHF-BU-SW-REQ-2-3 | MVHF-BU-DES-TRIG-5
@@ -564,6 +571,7 @@ MVHF-BU-DES-TRIG-4 | MVHF-BU-SW-REQ-2-1
 MVHF-BU-DES-TRIG-5 | MVHF-BU-SW-REQ-1-2,MVHF-BU-SW-REQ-2-3
 MVHF-BU-DES-TRIG-6 | MVHF-BU-SW-REQ-2-1,MVHF-BU-SW-REQ-2-2
 MVHF-BU-DES-TRIG-7 | MVHF-BU-SW-REQ-1-2
+MVHF-BU-DES-TRIG-8 | MVHF-BU-SW-REQ-1-3
 MVHF-BU-DES-WABU-1, MVHF-BU-DES-WABU-2 | MVHF-BU-SW-REQ-10-1
 MVHF-BU-DES-NSEP-1 | TODO (software reqs)
 MVHF-BU-DES-DIAD-1 | TODO (software reqs)
