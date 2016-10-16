@@ -353,7 +353,7 @@ other files will be extracted into the MVF-BU specific common files:
 See 5.1.1 (TODO: check reference accuracy) for description of the common files.
 
 
-###5.5.1 Configuration for wallet backup (MVHF-BU-DES-WABU-2)
+####5.5.2 Configuration for wallet backup (MVHF-BU-DES-WABU-2)
 
 Two new new optional parameters will be added (config file + command line
 arguments) which will allow the user to specify
@@ -402,7 +402,7 @@ attempted, but a warning log message will be entered to indicate that
 wallet backup has been skipped.
 
 
-###5.5.2 Triggering of the wallet file backup
+####5.5.3 Triggering of the wallet file backup (MVHF-BU-DES-WABU-3)
 
 The automatic wallet backup is enabled by default. The wallet backup will
 be initiated just before the hard fork's new consensus rules are activated.
@@ -419,7 +419,7 @@ Otherwise the filename maybe customized via a new command line parameter
 called `-autobackupwalletpath`.
 
 
-###5.5.3 Procedure to create the wallet file backup
+####5.5.4 Procedure to create the wallet file backup (MVHF-BU-DES-WABU-4)
 
 TODO: adapt this description to what actually takes place
 
@@ -432,6 +432,14 @@ Steps in wallet file backup procedure (tentative):
   4. close the backup file
   5. re-open the existing wallet file (to resume further operation)
 
+
+####5.5.5 Shutdown in case of wallet backup failure (MVHF-BU-DES-WABU-5)
+
+To be completed.
+
+At the moment, a runtime error is generated to crash the application.
+It seems that an orderly shutdown using StartShutdown() might run a
+risk of further writes to the wallet. More investigation is needed.
 
 ###5.6 Client identification (IDME)
 
@@ -539,11 +547,11 @@ MVHF-BU-SW-REQ-1-3 | MVHF-BU-DES-TRIG-8
 MVHF-BU-SW-REQ-2-1 | MVHF-BU-DES-TRIG-3,MVHF-BU-DES-TRIG-4,MVHF-BU-DES-TRIG-6
 MVHF-BU-SW-REQ-2-2 | MVHF-BU-DES-TRIG-2,MVHF-BU-DES-TRIG-6
 MVHF-BU-SW-REQ-2-3 | MVHF-BU-DES-TRIG-5
-MVHF-BU-SW-REQ-10-1 | MVHF-BU-DES-WABU-1, MVHF-BU-DES-WABU-2
-MVHF-BU-SW-REQ-10-2 | TODO
-MVHF-BU-SW-REQ-10-3 | TODO
-MVHF-BU-SW-REQ-10-4 | TODO
-MVHF-BU-SW-REQ-10-5 | TODO
+MVHF-BU-SW-REQ-10-1 | MVHF-BU-DES-WABU-1,MVHF-BU-DES-WABU-2
+MVHF-BU-SW-REQ-10-2 | MVHF-BU-DES-WABU-3
+MVHF-BU-SW-REQ-10-3 | MVHF-BU-DES-WABU-4
+MVHF-BU-SW-REQ-10-4 | MVHF-BU-DES-WABU-4
+MVHF-BU-SW-REQ-10-5 | MVHF-BU-DES-WABU-5
 MVHF-BU-SW-REQ-11-1 | MVHF-BU-DES-IDME-1,MVHF-BU-DES-IDME-2,MVHF-BU-DES-IDME-3,MVHF-BU-DES-IDME-4,MVHF-BU-DES-IDME-6
 MVHF-BU-SW-REQ-11-2 | MVHF-BU-DES-IDME-5
 TODO (software reqs) | MVHF-BU-DES-NSEP-1
@@ -572,7 +580,10 @@ MVHF-BU-DES-TRIG-5 | MVHF-BU-SW-REQ-1-2,MVHF-BU-SW-REQ-2-3
 MVHF-BU-DES-TRIG-6 | MVHF-BU-SW-REQ-2-1,MVHF-BU-SW-REQ-2-2
 MVHF-BU-DES-TRIG-7 | MVHF-BU-SW-REQ-1-2
 MVHF-BU-DES-TRIG-8 | MVHF-BU-SW-REQ-1-3
-MVHF-BU-DES-WABU-1, MVHF-BU-DES-WABU-2 | MVHF-BU-SW-REQ-10-1
+MVHF-BU-DES-WABU-1,MVHF-BU-DES-WABU-2 | MVHF-BU-SW-REQ-10-1
+MVHF-BU-DES-WABU-3 | MVHF-BU-SW-REQ-10-2
+MVHF-BU-DES-WABU-4 | MVHF-BU-SW-REQ-10-3,MVHF-BU-SW-REQ-10-4
+MVHF-BU-DES-WABU-5 | MVHF-BU-SW-REQ-10-5
 MVHF-BU-DES-NSEP-1 | TODO (software reqs)
 MVHF-BU-DES-DIAD-1 | TODO (software reqs)
 MVHF-BU-DES-CSIG-1 | TODO (software reqs)
