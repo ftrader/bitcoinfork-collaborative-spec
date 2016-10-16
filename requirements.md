@@ -358,7 +358,8 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
                     will no longer accept blocks of the forked chain and vice
                     versa. The trigger condition is described by MVHF-BU-SYS-REQ-2.
 
-    Traceability:   MVHF-BU-USER-REQ-1, MVHF-BU-SW-REQ-1-1, MVHF-BU-SW-REQ-1-2
+    Traceability:   MVHF-BU-USER-REQ-1, MVHF-BU-SW-REQ-1-1, MVHF-BU-SW-REQ-1-2,
+                    MVHF-BU-SW-REQ-1-3
 ---
     Requirement:    MVHF-BU-SYS-REQ-2
 
@@ -643,6 +644,25 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
                     rules.
 
     Notes:          No switching back to the pre-fork network is anticipated.
+
+    Traceability:   MVHF-BU-SYS-REQ-1
+---
+    Requirement:    MVHF-BU-SW-REQ-1-3
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          DISPLAY HELP INFORMATION ABOUT FORK RELATED PARAMETERS
+
+    Text:           The client shall display help information about any
+                    fork-related parameters which can configured by the
+                    user.
+
+    Rationale:      Enable the user to find the parameter names and allowed
+                    values using common means (e.g. --help option).
+
+    Notes:          -
 
     Traceability:   MVHF-BU-SYS-REQ-1
 ---
