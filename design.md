@@ -217,9 +217,12 @@ The TRIG-related parameters to be placed into the common files:
 BIP9 deployment parameters for SegWit soft-fork activation will be added in
 params.h / chainparams.cpp .
 
-The precise values are still incompletely specified by Bitcoin Core's BIP141
-(at the time of writing, the mainnet start time is listed as "TBD" in
-https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki#Deployment).
+SegWit (BIP141/143/147) deployment parameters have been set as follows:
+(https://github.com/bitcoin/bitcoin/pull/8937)
+
+- versionbit 1
+- start time: midnight 15 november 2016 UTC (Epoch timestamp 1479168000)
+- timeout: midnight 15 november 2017 UTC (Epoch timestamp 1510704000)
 
 
 ####5.1.3 New consensus parameters for fixed trigger height (MVHF-BU-DES-TRIG-3)
