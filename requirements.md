@@ -57,7 +57,7 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
                     A Unlimited-derived MVHF implementation including the additional
                     SegWit trigger would not need the main SegWit functionality,
                     only the BIP9 activation logic and parameters compatible with
-                    BIP141 deployment.
+                    BIP141/143/147 deployment.
                     2. Once SegWit is released, the final code needs to be
                     inspected to ensure that Core's implementation conforms
                     to BIP9 in the sense that the 95% threshold is respected
@@ -697,9 +697,11 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
 
     Rationale:      This fulfils the SegWit part of the system requirement.
 
-    Notes:          SegWit (BIP141) deployment parameters are not entirely
-                    finalized.
-                    They may need to be approximated for test purposes.
+    Notes:          SegWit (BIP141/143/147) deployment parameters have been set in
+                    https://github.com/bitcoin/bitcoin/pull/8937
+                    The source code release accompanying the official 0.13.1
+                    release should be examined for any deviations from the
+                    assumed BIP9 activation strategy.
 
     Traceability:   MVHF-BU-SYS-REQ-2
 ---
