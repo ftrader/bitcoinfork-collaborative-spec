@@ -1,4 +1,15 @@
-# User requirements for Minimum Viable Hard Fork - Bitcoin Core edition
+# Requirements for Minimum Viable Hard Fork - Bitcoin Core edition
+
+Draft of Minimum Viable Hard Fork based on Bitcoin Core
+
+##1. Contents <a id="1-contents"></a>
+
+1. [Contents](#1-contents)
+2. [User requirements](#2-user-reqs)
+3. [System requirements](#3-sys-reqs)
+4. [Software requirements](#4-sw-reqs)
+
+##2. User requirements <a id="2-user-reqs"></a>
 
     Requirement:    MVHF-CORE-USER-REQ-1
 
@@ -18,8 +29,9 @@
 
     Notes:          "its own chain" means that post-trigger, the existing chain
                     will no longer accept blocks of the forked chain and vice
-                    versa. The trigger condition is described by a separate
-                    requirement.
+                    versa. The trigger condition is described by MVHF-CORE-USER-REQ-2.
+
+    Traceability:   MVHF-CORE-SYS-REQ-1
 ---
     Requirement:    MVHF-CORE-USER-REQ-2
 
@@ -45,7 +57,8 @@
                     A Core-derived MVHF implementation including the additional
                     SegWit trigger would not need the main SegWit functionality,
                     only the BIP9 activation logic and parameters compatible with
-                    BIP141 deployment.
+                    BIP141/143/147 deployment. An older version (0.12.1) could be
+                    used as a base.
                     2. Once SegWit is released, the final code needs to be
                     inspected to ensure that Core's implementation conforms
                     to BIP9 in the sense that the 95% threshold is respected
@@ -54,6 +67,8 @@
                     ACTIVE state. Should this not be the case, the SegWit
                     trigger condition in this requirement may need to be
                     adjusted.
+
+    Traceability:   MVHF-CORE-SYS-REQ-2
 ---
     Requirement:    MVHF-CORE-USER-REQ-3
 
@@ -74,8 +89,12 @@
                     (and this requirement in particular) to overcome this
                     limitation and restore growth.
 
-    Notes:          The actual regulation of block size in the forked solution is
-                    described by further requirements.
+    Notes:          Bitcoin Core features a static block size limit.
+                    This would be reconfigured to a higher value.
+                    There may be other internal parameters that need
+                    to be adjusted as a consequence to keep the fork viable.
+
+    Traceability:   MVHF-CORE-SYS-REQ-3
 ---
     Requirement:    MVHF-CORE-USER-REQ-4
 
@@ -83,38 +102,28 @@
 
     Type:           Functional
 
-    Title:          PERMIT BLOCK SIZE UP TO TWO MEGABYTES
+    Title:          ENABLE BLOCK SIZE OF TWO MEGABYTES
 
-    Text:           Upon triggering, the fork shall statically raise the limit of
-                    block size to 2,000,000 bytes.
+    Text:           Upon triggering, the fork shall enable a block size
+                    of 2,000,000 bytes.
 
-    Rationale:      A block size of 2MB is considered safe by all parties
-                    (even the planned SegWit solution could effectively result
-                    in up to 4MB aggregate size of witness + non-witness data).
-                    The Cornell study [1] has indicated that even sizes of up
-                    to 4MB would be safe (at the time of the study - it is
-                    likely that even greater sizes would be acceptable now).
-                    Raising the limit to a static 2MB is the simplest and most
-                    unproblematic immediate change, would relieve the urgent
-                    block size pressure, and could be followed up by a hardfork
-                    with a more sophisticated dynamic algorithm allowing
-                    greater (or even limited-only-by-infrastructure) block
-                    sizes.
-                    A conservative 2MB cap as a first step would also be
-                    suitable for clients which have not yet implemented
-                    improved block propagation protocols such as Bitcoin
-                    Unlimited's Xtreme Thinblocks or Core's Compact Blocks.
-                    As such it would make the MVF more accesible to wider
+    Rationale:      A block size of 2MB is considered safe by all parties,
+                    even if somewhat inadequate it would still provide
+                    14% more capacity than the current SegWit implementation
+                    would under optimal conditions (peaking at ~1.75x
+                    increase over 1MB limit).
+                    It would give a little breathing room for the preparation
+                    of a more permanent solution (e.g. emergent consensus).
+                    Other clients could support 2MB blocks without having to
+                    implement improved block propagation protocols
+                    such as Bitcoin Unlimited's Xtreme Thinblocks or Core's
+                    Compact Blocks.
+                    As such it would make the MVF more accessible to wider
                     implementation in alternate clients (btcd + others).
 
-    Notes:          It is not established whether block sizes greater than 4MB
-                    would require protection in the form of a dynamic cap against
-                    attempts to eliminate full nodes from the network through
-                    persistent spam attacks (high volume of own transactions).
-                    Mitigations against such selfish spamming are possible, but
-                    for simplicity the MVF should stick to proven technology and
-                    use a safe enough static limit.
-                    [1] http://fc16.ifca.ai/bitcoin/papers/CDE+16.pdf
+    Notes:          -
+
+    Traceability:   MVHF-CORE-SYS-REQ-4
 ---
     Requirement:    MVHF-CORE-USER-REQ-5
 
@@ -139,6 +148,8 @@
                     If peer connections are closed and re-opened during the fork,
                     there may be some risk of interference during the separation
                     manoeuvre.
+
+    Traceability:   MVHF-CORE-SYS-REQ-5
 ---
     Requirement:    MVHF-CORE-USER-REQ-6
 
@@ -165,6 +176,8 @@
                     Ideally, seed data would be moved to a more easily manageable
                     configuration file which could be adjusted without
                     needing to rebuild executables.
+
+    Traceability:   MVHF-CORE-SYS-REQ-6
 ---
     Requirement:    MVHF-CORE-USER-REQ-7
 
@@ -187,6 +200,8 @@
     Notes:          The requirement for a difficulty reset is essentially
                     independent of whether the Proof-of-Work (POW) function is
                     changed. This MVF does not mandate change of POW.
+
+    Traceability:   MVHF-CORE-SYS-REQ-7
 ---
     Requirement:    MVHF-CORE-USER-REQ-8
 
@@ -201,7 +216,7 @@
                     block (~2 week) adjustment period.
 
     Rationale:      The hashing power allocated to the fork might vary
-                    substantially. To prevent certain attacks [2], it is
+                    substantially. To prevent certain attacks [1], it is
                     important that the retargeting period be low initially,
                     so that difficulty can adjust faster to the faster-changing
                     circumstances on a fork.
@@ -210,10 +225,12 @@
                     miners conduct planning more effectively than would be
                     possible given a much faster retargeting cycle.
 
-    Notes: [2]      primarily attacks which add a lot of hashpower to raise the
-                    difficulty, then withhold that hashpower to deny service
-                    on the new chain (there may be other similar attacks
-                    enabled by too-slow difficulty adjustment)
+    Notes:          [1] primarily attacks which add a lot of hashpower to raise the
+                        difficulty, then withhold that hashpower to deny service
+                        on the new chain (there may be other similar attacks
+                        enabled by too-slow difficulty adjustment)
+
+    Traceability:   MVHF-CORE-SYS-REQ-8
 ---
     Requirement:    MVHF-CORE-USER-REQ-9
 
@@ -221,14 +238,14 @@
 
     Type:           Functional
 
-    Title:          REPLAY ATTACK PREVENTION
+    Title:          TRANSACTION REPLAY PREVENTION
 
     Text:           Upon triggering, the fork shall modify signatures for
                     transactions conducted on its chain such that these transactions
                     will be invalid on the existing chain, in order to prevent
-                    replay attacks.
+                    transaction replay.
 
-    Rationale:      Replay attacks (where a malicious bridge can forward
+    Rationale:      Transaction replay (where a malicious bridge can forward
                     transactions made on one chain to another, causing a loss
                     of transactional independence between the chains) have
                     been shown to be disruptive to the ecosystem e.g. in the
@@ -238,6 +255,8 @@
     Notes:          A simple, but as yet untested proposal is the SIGHASH change
                     proposal made by Iguana developer jl777 in [3].
                     [3] https://steemit.com/bitcoin/@jl777/bitcoin-spinoff-fork-how-to-make-a-clean-fork-without-any-replay-attack-and-no-blockchain-visible-changes
+
+    Traceability:   MVHF-CORE-SYS-REQ-9
 ---
     Requirement:    MVHF-CORE-USER-REQ-10
 
@@ -265,6 +284,572 @@
     Notes:          Currently no known fork implementations do this, this would
                     have to be developed from scratch.
 
-# System requirements for Minimum Viable Hard Fork - Bitcoin Core edition
+    Traceability:   MVHF-CORE-SYS-REQ-10
+---
+    Requirement:    MVHF-CORE-USER-REQ-11
 
-TBD - These will be derived from the above user requirements.
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          CLEARLY DISTINGUISHABLE CLIENT IDENTIFICATION
+
+    Text:           Ensure that the fork client is distinguishable from the
+                    non-forked client to the user, both visually and how it
+                    identifies over the network.
+
+    Rationale:      Care must be taken to ensure that a user can easily
+                    distinguish the forked and non-forked software clients,
+                    otherwise usage errors may result (e.g. transacting with
+                    pre-fork coins on an unintended chain).
+
+    Notes:          The forked software should distinctly identify on startup,
+                    in graphical splash and help screens, when starting log
+                    files and when called with options to display its version
+                    information distinct version information, including when
+                    transmitting its user agent string over the network.
+
+    Traceability:   MVHF-CORE-SYS-REQ-11
+
+##3. System requirements <a id="3-sys-reqs"></a>
+
+    Requirement:    MVHF-CORE-SYS-REQ-1
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          NON-ELECTIVE HARD FORK TO SEPARATE CHAIN
+
+    Text:           The system shall enforce the creation of its own chain by
+                    separating from the existing chain upon the triggering of a
+                    non-elective condition.
+
+    Rationale:      refer to MVHF-CORE-USER-REQ-1
+
+    Notes:          "Its own chain" means that post-trigger, the existing chain
+                    will no longer accept blocks of the forked chain and vice
+                    versa. The trigger condition is described by MVHF-CORE-SYS-REQ-2.
+
+    Traceability:   MVHF-CORE-USER-REQ-1, MVHF-CORE-SW-REQ-1-1, MVHF-CORE-SW-REQ-1-2,
+                    MVHF-CORE-SW-REQ-1-3
+---
+    Requirement:    MVHF-CORE-SYS-REQ-2
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          TRIGGER CONDITION
+
+    Text:           The system shall trigger the fork at a specified block height or upon
+                    SegWit activation (95%), whichever is reached first.
+
+    Rationale:      refer to MVHF-CORE-USER-REQ-2
+
+    Notes:          'Trigger the fork' means to initiate the actions that will separate
+                    the chains and enforce the updated consensus rules of the fork.
+
+    Traceability:   MVHF-CORE-USER-REQ-2, MVHF-CORE-SW-REQ-2-1, MVHF-CORE-SW-REQ-2-2
+                    MVHF-CORE-SW-REQ-2-3
+---
+    Requirement:    MVHF-CORE-SYS-REQ-3
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          PERMIT BLOCK SIZE TO EXCEED ONE MEGABYTE
+
+    Text:           Upon triggering of the fork, the system shall enable
+                    blocks greater than 1,000,000 bytes.
+
+    Rationale:      refer to MVHF-CORE-USER-REQ-3
+
+    Notes:          -
+
+    Traceability:   MVHF-CORE-USER-REQ-3
+---
+    Requirement:    MVHF-CORE-SYS-REQ-4
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          ENABLE BLOCK SIZE OF TWO MEGABYTES
+
+    Text:           Upon triggering, the system shall enable a block size
+                    of 2,000,000 bytes.
+
+    Rationale:      refer to MVHF-CORE-USER-REQ-4
+
+    Notes:          -
+
+    Traceability:   MVHF-CORE-USER-REQ-4
+---
+    Requirement:    MVHF-CORE-SYS-REQ-5
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          CLEAN NETWORK SEPARATION
+
+    Text:           Upon triggering, the system shall ensure that both
+                    chains are clearly distinguishable and their networks
+                    separated from each other, to prevent as much
+                    unnecessary processing as possible on both sides.
+
+    Rationale:      refer to MVHF-CORE-USER-REQ-5
+
+    Notes:          The separation state (forked or not) should be persisted
+                    so that only the forked network is used after triggering.
+                    If "and never the twain shall meet" cannot be
+                    fully realized, then at least nodes of the different
+                    networks shall part ways as swiftly as possible.
+
+    Traceability:   MVHF-CORE-USER-REQ-5
+---
+    Requirement:    MVHF-CORE-SYS-REQ-6
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          NEW SEEDS
+
+    Text:           The system shall use a distinct set of DNS seeds.
+
+    Rationale:      refer to MVHF-CORE-USER-REQ-6
+
+    Notes:          The list of seeds is currently hardcoded.
+                    Ideally, seed data would be moved to a more easily manageable
+                    configuration file which could be adjusted without
+                    needing to rebuild executables.
+
+    Traceability:   MVHF-CORE-USER-REQ-6
+---
+    Requirement:    MVHF-CORE-SYS-REQ-7
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          DIFFICULTY RESET TO LOW VALUE
+
+    Text:           Upon triggering of the fork, the system shall reset
+                    the difficulty to a low enough value so that the
+                    projected initial supporting hashpower would be able to
+                    mine a block on average every 10 minutes.
+
+    Rationale:      MVHF-CORE-USER-REQ-7
+
+    Notes:          1. Need to obtain more data for projected initial
+                    supporting hashpower. A survey conducted earlier
+                    indicated a range between ~70-600TH/s, which great
+                    uncertainty in the commitments:
+                    https://np.reddit.com/r/btcfork/comments/4wwq70/who_has_miners_gathering_dust_and_would_be/
+                    in order to calibrate the difficulty reset.
+                    2. The reset to low difficulty also requires faster
+                    retargeting immediately after the fork, to compensate
+                    for rapid changes in hashpower.
+
+    Traceability:   MVHF-CORE-USER-REQ-7
+---
+    Requirement:    MVHF-CORE-SYS-REQ-8
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          ADJUSTMENT OF DIFFICULTY RETARGETING PERIOD
+
+    Text:           Upon triggering of the fork, the system shall reduce
+                    the difficulty retargeting period and deterministically
+                    recover to the current 2016 block (~2 week) adjustment
+                    period.
+
+    Rationale:      refer to MVHF-CORE-USER-REQ-8
+
+    Notes:          A safe minimum retargeting period still has
+                    to be determined. The reduction and recovery requirements
+                    can be made precise in software requirements.
+
+    Traceability:   MVHF-CORE-USER-REQ-8
+---
+    Requirement:    MVHF-CORE-SYS-REQ-9
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          TRANSACTION REPLAY PREVENTION
+
+    Text:           Upon triggering of the fork, the system shall emit
+                    and accept only modified signatures such that transactions
+                    signed by it will be mutually invalid with those signed
+                    on the existing chain.
+
+    Rationale:      refer to MVHF-CORE-USER-REQ-9
+
+    Notes:          refer to MVHF-CORE-USER-REQ-9
+
+    Traceability:   MVHF-CORE-USER-REQ-9
+---
+    Requirement:    MVHF-CORE-SYS-REQ-10
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          BACKUP COPY OF PRE-FORK WALLET
+
+    Text:           Upon triggering of the fork, the system shall create a
+                    backup of the wallet in use (or the default wallet if
+                    none is in use) in a new file. If the backup fails
+                    for any reason the software shall exit gracefully,
+                    preserving the existing (pre-fork) state of the wallet.
+
+    Rationale:      refer to MVHF-CORE-USER-REQ-10
+
+    Notes:          -
+
+    Traceability:   MVHF-CORE-USER-REQ-10, MVHF-CORE-SW-REQ-10-1, MVHF-CORE-SW-REQ-10-2,
+                    MVHF-CORE-SW-REQ-10-3, MVHF-CORE-SW-REQ-10-4, MVHF-CORE-SW-REQ-10-5
+---
+    Requirement:    MVHF-CORE-SYS-REQ-11
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          CLEARLY DISTINGUISHABLE SYSTEM IDENTIFICATION
+
+    Text:           The system shall ensure that clearly distinguishable
+                    identification is presented to the user in all necessary
+                    places, to prevent misidentification of the system by
+                    the user.
+
+    Rationale:      refer to MVHF-CORE-USER-REQ-11
+
+    Notes:          Necessary places include (possibly non-exhaustive list):
+                    1. in the Graphical User Interface (GUI) splash screen
+                    and other places where the client version is indicated
+                    2. in log file messages during startup
+                    3. in the user agent string sent over the network
+                    4. in the RPC output calls that return version information
+                    5. in version information displayed by command line client
+                    programs on request
+
+    Traceability:   MVHF-CORE-USER-REQ-11, MVHF-CORE-SW-REQ-11-1, MVHF-CORE-SW-REQ-11-2
+
+##4. Software requirements <a id="4-sw-reqs"></a>
+
+    Requirement:    MVHF-CORE-SW-REQ-1-1
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          ALLOW CLIENT TO SPECIFY FORK PARAMETERS
+
+    Text:           The client shall allow the user to specify the following
+                    parameters which contribute to the creation of the
+                    separate chain:
+                    - fixed fork height
+                    - network port which fork network nodes will listen on after fork triggering
+                    - fork ID to use for signature change
+
+    Rationale:      Extracting the fork parameters to user configuration will
+                    allow for easier testing without recompilation.
+
+    Notes:          These parameters shall be accessible via command line
+                    arguments and configuration file values, and default
+                    values will be preconfigured.
+                    Additional parameters considered but not included at this
+                    time for minimality reasons are:
+                    - fork block version
+                    - fork network protocol version
+                    - fork transaction version
+                    Some of these may still prove to be necessary to
+                    include among the MVF parameters.
+
+    Traceability:   MVHF-CORE-SYS-REQ-1
+---
+    Requirement:    MVHF-CORE-SW-REQ-1-2
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          CHANGE BETWEEN PRE-FORK AND POST-FORK CONSENSUS AS NEEDED
+
+    Text:           The client shall switch between the pre-fork and
+                    post-fork consensus rules as appropriate according to
+                    the conditions prevalent on the active chain.
+
+    Rationale:      Reorganizations make it necessary for the client to
+                    be able to switch between pre- and post-fork consensus
+                    rules.
+
+    Notes:          No switching back to the pre-fork network is anticipated.
+
+    Traceability:   MVHF-CORE-SYS-REQ-1
+---
+    Requirement:    MVHF-CORE-SW-REQ-1-3
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          DISPLAY HELP INFORMATION ABOUT FORK RELATED PARAMETERS
+
+    Text:           The client shall display help information about any
+                    fork-related parameters which can configured by the
+                    user.
+
+    Rationale:      Enable the user to find the parameter names and allowed
+                    values using common means (e.g. --help option).
+
+    Notes:          -
+
+    Traceability:   MVHF-CORE-SYS-REQ-1
+---
+    Requirement:    MVHF-CORE-SW-REQ-2-1
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          TRIGGER ON ARRIVAL AT SPECIFIED BLOCK HEIGHT
+
+    Text:           The client shall trigger the fork when the height of
+                    the active chain reaches the configured fixed trigger height.
+
+    Rationale:      This fulfils the fixed trigger part of the system requirement.
+
+    Notes:          If no block height is specified, a preconfigured default
+                    will be used which depends on the network in use.
+
+    Traceability:   MVHF-CORE-SYS-REQ-2
+---
+    Requirement:    MVHF-CORE-SW-REQ-2-2
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          TRIGGER ON ACTIVATION OF SEGWIT
+
+    Text:           The client shall trigger the fork when the SegWit
+                    soft-fork is activated.
+
+    Rationale:      This fulfils the SegWit part of the system requirement.
+
+    Notes:          SegWit (BIP141/143/147) deployment parameters have been set in
+                    https://github.com/bitcoin/bitcoin/pull/8937
+                    The source code release accompanying the official 0.13.1
+                    release should be examined for any deviations from the
+                    assumed BIP9 activation strategy.
+
+    Traceability:   MVHF-CORE-SYS-REQ-2
+---
+    Requirement:    MVHF-CORE-SW-REQ-2-3
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          MAINTAIN FORK ACTIVATION STATE
+
+    Text:           The client shall maintain a state variable describing
+                    whether the fork is active.
+
+    Rationale:      This will be used in code paths where the new consensus
+                    rules need to be applied depending on whether the fork
+                    is active or not.
+
+    Notes:          -
+
+    Traceability:   MVHF-CORE-SYS-REQ-2
+---
+    Requirement:    MVHF-CORE-SW-REQ-10-1
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          CONFIGURATION PARAMETER FOR WALLET BACKUP FILE LOCATION
+
+    Text:           The client shall allow the user to configure a file path
+                    where the wallet backup file shall be created when the
+                    fork is triggered.
+
+    Rationale:      It should be the user's choice to decide where to create
+                    the wallet backup. For safety reasons no switch is
+                    provided to disable the wallet backup.
+
+    Notes:          If the specified configuration value does not includes
+                    path separators, it is to be treated as a filename and
+                    the default path where a user wallet is located shall
+                    be used.
+                    If the specified configuration value includes path
+                    separators, the backup shall be created at that
+                    specified location (path + filename).
+
+    Traceability:   MVHF-CORE-SYS-REQ-10
+---
+    Requirement:    MVHF-CORE-SW-REQ-10-2
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          INITIATE WALLET BACKUP AFTER COMPLETION OF TRIGGER BLOCK PROCESSING
+
+    Text:           After processing the trigger block, the client shall
+                    initiate the wallet backup procedure.
+
+    Rationale:      The backup of the wallet can and should be done *after*
+                    the trigger block has been digested.
+
+    Notes:          This requirement needs to be verified by receiving some
+                    funds in the trigger block, and checking that they have
+                    been accounted for in the backed-up wallet.
+
+    Traceability:   MVHF-CORE-SYS-REQ-10
+---
+    Requirement:    MVHF-CORE-SW-REQ-10-3
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          WALLET BACKUP PROCEDURE - IF RUNNING WITH A WALLET IN USE
+
+    Text:           If running with a wallet in use, the client shall back up
+                    the wallet, ensuring that the application cannot write
+                    to it while performing the backup.
+
+    Rationale:      If a client is running with a wallet then it should be backed up.
+                    If wallet use is disabled (e.g. using --disable-wallet),
+                    there is no need to backup a wallet - in that case
+                    MVHF-CORE-SW-REQ-10-4 applies.
+
+    Notes:          -
+
+    Traceability:   MVHF-CORE-SYS-REQ-10
+---
+    Requirement:    MVHF-CORE-SW-REQ-10-4
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          WALLET BACKUP PROCEDURE - IF RUNNING WITHOUT A WALLET
+
+    Text:           If running without a wallet, the client shall skip the
+                    wallet backup procedure.
+
+    Rationale:      If a client is not running with a wallet (e.g. using
+                    --disable-wallet), there is no need nor safe ability
+                    to perform the backup.
+
+    Notes:          There is no need to back up a wallet if none is in active
+                    use. In this case the user assumes responsibility for
+                    backing up any existing wallet files prior to using them
+                    with the client.
+
+    Traceability:   MVHF-CORE-SYS-REQ-10
+---
+    Requirement:    MVHF-CORE-SW-REQ-10-5
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          SAFE CLIENT SHUTDOWN IN CASE OF WALLET BACKUP FAILURE
+
+    Text:           If the wallet backup procedure (refer to
+                    MVHF-CORE-SW-REQ-10-3) fails, the client shall perform a
+                    safe shutdown which preserves the state of the wallet
+                    prior to the fork.
+
+    Rationale:      Do not risk writing post-fork data to the wallet.
+
+    Notes:          -
+
+    Traceability:   MVHF-CORE-SYS-REQ-10
+---
+    Requirement:    MVHF-CORE-SW-REQ-10-6
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          CONFIGURATION PARAMETER FOR WALLET BACKUP BLOCK
+
+    Text:           The client shall allow the user to configure a block
+                    number which shall trigger an automated backup.
+
+    Rationale:      For testing purposes its very useful to define a block number
+                    for automatic backup since the fork block is not yet known.
+                    After the fork the user may use this to trigger further automated backups.
+
+    Notes:          This parameter is optional and will default to the fork block
+                    if omitted.
+
+    Traceability:   MVHF-CORE-SYS-REQ-10
+---
+    Requirement:    MVHF-CORE-SW-REQ-11-1
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          CLEARLY DISTINGUISHABLE CLIENT NAME
+
+    Text:           The client shall clearly identify itself as 'MVF-Core'
+                    in the following places:
+                    1. in the GUI splash screen
+                    2. in the GUI title bar
+                    3. in the GUI 'About' menu entry under the 'Help' menu
+                    4. in the GUI 'About' dialog window (window title and version string)
+                    5. in the GUI 'Information' pane of the 'Help->Debug' window (client name and user agent)
+                    6. in the GUI 'Command line options' dialog under the 'Help' menu (client name)
+                    7. in log file messages during startup
+                    8. in the user agent string sent over the network
+                    9. in the RPC output calls that return version information
+                    10. in help and version information displayed on request
+                        by command line client programs such as bitcoind,
+                        bitcoin-cli, and bitcoin-tx
+                    11. in generated package/mountable disk volume names
+
+    Rationale:      -
+
+    Notes:          The list above may still be missing some items.
+                    The graphical aspects of this requirement can be
+                    verified by demonstration.
+                    Log file / RPC information should be verified programmatically.
+
+    Traceability:   MVHF-CORE-SYS-REQ-11
+---
+    Requirement:    MVHF-CORE-SW-REQ-11-2
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          CLEARLY DISTINGUISHABLE DEBUG TRACES
+
+    Text:           The client shall prefix any new permanent debug
+                    traces using a recognisable tag such as 'MVF'.
+
+    Rationale:      -
+
+    Notes:          Since the client identifies itself as 'MVF-Core', the
+                    'Core' can be omitted from debug traces and 'MVF' should
+                    be sufficient.
+
+    Traceability:   MVHF-CORE-SYS-REQ-11
+
