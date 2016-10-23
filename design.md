@@ -198,8 +198,8 @@ To be completed: fork triggering (changing between old/new consensus rules)
 Certain TRIG-related parameters and functions that are needed in
 other files will be extracted into the MVF-Core specific files:
 
-- mvf-bu.h
-- mvf-bu.cpp
+- mvf-core.h
+- mvf-core.cpp
 
 The TRIG-related parameters to be placed into the common files:
 
@@ -223,7 +223,7 @@ SegWit (BIP141/143/147) deployment parameters have been set as follows:
 
 A new consensus parameter, nMVFActivateForkHeight, will be added in
 params.h / chainparams.cpp, and initialized with the default trigger heights
-according to each network, as defined in mvf-bu.h .
+according to each network, as defined in mvf-core.h .
 
 An access function MVFActivateForkHeight() return a constant object
 will also be provided. (TODO: not needed?)
