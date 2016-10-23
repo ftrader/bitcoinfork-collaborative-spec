@@ -470,13 +470,21 @@ bitcoin-tx  | `Bitcoin bitcoin-tx utility version v0.12.1.0-b0dfbf1` | `Bitcoin 
 
 In the following locations in the GUI, the designation 'Bitcoin Unlimited'
 will be replaced by 'Bitcoin MVF-BU':
+
 1. splash screen
+
 2. main window title bar
+
 3. 'About' menu entry under the 'Help' menu
+
 4. 'About' dialog window (modify window title and version string)
+
 5. 'Information' pane of the 'Help->Debug' window (modify client name and user agent)
+
 6. 'Command line options' dialog under the 'Help' menu (modify client name)
+
 7. dialog windows
+
 8. in the system tray icon
 
 Where version information follows after the client name, this format shall be
