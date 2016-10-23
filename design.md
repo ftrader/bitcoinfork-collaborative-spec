@@ -228,10 +228,6 @@ according to each network, as defined in mvf-core.h .
 An access function MVFActivateForkHeight() return a constant object
 will also be provided. (TODO: not needed?)
 
-TODO: get rid of Classic's SizeForkExpiration() consensus parameter?
-Removal is probably not needed, more important that code differences are kept
-minimal.
-
 
 ####5.1.4 New global variable for command line trigger height (MVHF-CORE-DES-TRIG-4)
 
