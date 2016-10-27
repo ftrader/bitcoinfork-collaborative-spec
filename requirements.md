@@ -52,20 +52,12 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
                     the ledger. SegWit functionality is not seen as part of
                     the requirements for an MVF.
 
-    Notes:          1. Satoshi described a hard fork at a predetermined block height
+    Notes:          Satoshi described a hard fork at a predetermined block height
                     as a possible mechanism to allow bigger blocks again in future.
                     A Unlimited-derived MVHF implementation including the additional
                     SegWit trigger would not need the main SegWit functionality,
                     only the BIP9 activation logic and parameters compatible with
                     BIP141/143/147 deployment.
-                    2. Once SegWit is released, the final code needs to be
-                    inspected to ensure that Core's implementation conforms
-                    to BIP9 in the sense that the 95% threshold is respected
-                    and it does not allow SW transactions to be relayed or
-                    mined into blocks prior to the SegWit soft-fork reaching
-                    ACTIVE state. Should this not be the case, the SegWit
-                    trigger condition in this requirement may need to be
-                    adjusted.
 
     Traceability:   MVHF-BU-SYS-REQ-2
 ---
@@ -697,11 +689,8 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
 
     Rationale:      This fulfils the SegWit part of the system requirement.
 
-    Notes:          SegWit (BIP141/143/147) deployment parameters have been set in
-                    https://github.com/bitcoin/bitcoin/pull/8937
-                    The source code release accompanying the official 0.13.1
-                    release should be examined for any deviations from the
-                    assumed BIP9 activation strategy.
+    Notes:          SegWit (BIP141/143/147) deployment parameters have been
+                    set in https://github.com/bitcoin/bitcoin/pull/8937 .
 
     Traceability:   MVHF-BU-SYS-REQ-2
 ---
