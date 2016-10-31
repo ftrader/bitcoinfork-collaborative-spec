@@ -294,6 +294,20 @@ TODO: elaborate
 Help text listing the MVF-BU specific new parameters and their allowed
 values will be added to the output of the `--help` option, as is customary.
 
+####5.1.9 Output fork trigger information on `getblockchaininfo` RPC call (MVHF-BU-DES-TRIG-9)
+
+The `getblockinfo` RPC call will be extended to provide a `hardforks`
+entry with the following info:
+
+- id: name of fork, value 'mvhf' can be kept common across MVF clients
+- forkheight: the configured block height (can be set using `-forkheight`)
+- forkid: the configured fork id (can be set using `-forkid`)
+- blocks_remaining: how many blocks left to the fork height
+- segwit_status: the activation status of the SegWit soft-fork
+
+Additionally, the `softforks` section will be extended with the details on
+the SegWit soft-fork in the same way that Core provides this information.
+
 
 ###5.2 Network Separation (NSEP)
 
@@ -562,6 +576,7 @@ MVHF-BU-SW-REQ-1-3 | MVHF-BU-DES-TRIG-8
 MVHF-BU-SW-REQ-2-1 | MVHF-BU-DES-TRIG-3,MVHF-BU-DES-TRIG-4,MVHF-BU-DES-TRIG-6
 MVHF-BU-SW-REQ-2-2 | MVHF-BU-DES-TRIG-2,MVHF-BU-DES-TRIG-6
 MVHF-BU-SW-REQ-2-3 | MVHF-BU-DES-TRIG-5
+MVHF-BU-SW-REQ-2-4 | MVHF-BU-DES-TRIG-9
 MVHF-BU-SW-REQ-10-1 | MVHF-BU-DES-WABU-1,MVHF-BU-DES-WABU-2
 MVHF-BU-SW-REQ-10-2 | MVHF-BU-DES-WABU-3
 MVHF-BU-SW-REQ-10-3 | MVHF-BU-DES-WABU-4
@@ -594,6 +609,7 @@ MVHF-BU-DES-TRIG-5 | MVHF-BU-SW-REQ-1-2,MVHF-BU-SW-REQ-2-3
 MVHF-BU-DES-TRIG-6 | MVHF-BU-SW-REQ-2-1,MVHF-BU-SW-REQ-2-2
 MVHF-BU-DES-TRIG-7 | MVHF-BU-SW-REQ-1-2
 MVHF-BU-DES-TRIG-8 | MVHF-BU-SW-REQ-1-3
+MVHF-BU-DES-TRIG-9 | MVHF-BU-SW-REQ-2-4
 MVHF-BU-DES-WABU-1,MVHF-BU-DES-WABU-2 | MVHF-BU-SW-REQ-10-1
 MVHF-BU-DES-WABU-3 | MVHF-BU-SW-REQ-10-2
 MVHF-BU-DES-WABU-4 | MVHF-BU-SW-REQ-10-3,MVHF-BU-SW-REQ-10-4
