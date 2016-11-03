@@ -351,7 +351,7 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Core
                     the chains and enforce the updated consensus rules of the fork.
 
     Traceability:   MVHF-CORE-USER-REQ-2, MVHF-CORE-SW-REQ-2-1, MVHF-CORE-SW-REQ-2-2
-                    MVHF-CORE-SW-REQ-2-3
+                    MVHF-CORE-SW-REQ-2-3, MVHF-CORE-SW-REQ-2-4
 ---
     Requirement:    MVHF-CORE-SYS-REQ-3
 
@@ -672,6 +672,27 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Core
     Notes:          -
 
     Traceability:   MVHF-CORE-SYS-REQ-2
+---
+    Requirement:    MVHF-CORE-SW-REQ-2-4
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          OUTPUT FORK INFORMATION VIA RPC
+
+    Text:           Prior to fork activation the client shall output
+                    information about the upcoming fork when interrogated
+                    using the `getblockchaininfo` RPC call.
+
+    Rationale:      As forking is an important event, making the hard fork
+                    parameters of a running client visible to those with
+                    RPC access seems just as important as providing
+                    information on e.g. BIP9 soft-forks.
+
+    Notes:          -
+
+    Traceability:   MVHF-BU-SYS-REQ-2
 ---
     Requirement:    MVHF-CORE-SW-REQ-10-1
 
