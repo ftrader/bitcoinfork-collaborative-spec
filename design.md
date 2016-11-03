@@ -285,6 +285,21 @@ Help text listing the MVF-Core specific new parameters and their allowed
 values will be added to the output of the `--help` option, as is customary.
 
 
+####5.1.9 Output fork trigger information on `getblockchaininfo` RPC call (MVHF-CORE-DES-TRIG-9)
+
+The `getblockinfo` RPC call will be extended to provide a `hardforks`
+entry with the following info:
+
+- id: name of fork, value 'mvhf' can be kept common across MVF clients
+- forkheight: the configured block height (can be set using `-forkheight`)
+- forkid: the configured fork id (can be set using `-forkid`)
+- blocks_remaining: how many blocks left to the fork height
+- segwit_status: the activation status of the SegWit soft-fork
+
+Additionally, the `softforks` section will be extended with the details on
+the SegWit soft-fork in the same way that Core provides this information.
+
+
 ###5.2 Network Separation (NSEP)
 
 To be completed: network separation actions
@@ -329,6 +344,10 @@ other files will be extracted into the MVF-Core specific common files:
 
 See 5.1.1 (TODO: check reference accuracy) for description of the common files.
 
+
+####5.4.2 Parameter validation (MVHF-CORE-DES-CSIG-2)
+
+At startup, the fork id must be validated to be in the range 0 ... 0xFFFFFF .
 
 
 ###5.5 Wallet Backup (WABU)
@@ -538,12 +557,13 @@ but there can be more than one design elements for a requirement.
 
 Requirement | Design elements
 --- | ---
-MVHF-CORE-SW-REQ-1-1 | MVHF-CORE-DES-TRIG-1,MVHF-CORE-DES-TRIG-3
+MVHF-CORE-SW-REQ-1-1 | MVHF-CORE-DES-TRIG-1,MVHF-CORE-DES-TRIG-3,MVHF-CORE-DES-CSIG-1,MVHF-CORE-DES-CSIG-2
 MVHF-CORE-SW-REQ-1-2 | MVHF-CORE-DES-TRIG-5,MVHF-CORE-DES-TRIG-7
 MVHF-CORE-SW-REQ-1-3 | MVHF-CORE-DES-TRIG-8
 MVHF-CORE-SW-REQ-2-1 | MVHF-CORE-DES-TRIG-3,MVHF-CORE-DES-TRIG-4,MVHF-CORE-DES-TRIG-6
 MVHF-CORE-SW-REQ-2-2 | MVHF-CORE-DES-TRIG-2,MVHF-CORE-DES-TRIG-6
 MVHF-CORE-SW-REQ-2-3 | MVHF-CORE-DES-TRIG-5
+MVHF-CORE-SW-REQ-2-4 | MVHF-CORE-DES-TRIG-9
 MVHF-CORE-SW-REQ-10-1 | MVHF-CORE-DES-WABU-1,MVHF-CORE-DES-WABU-2
 MVHF-CORE-SW-REQ-10-2 | MVHF-CORE-DES-WABU-3
 MVHF-CORE-SW-REQ-10-3 | MVHF-CORE-DES-WABU-4
@@ -569,7 +589,7 @@ Design element(s) | Software requirement
 --- | ---
 MVHF-CORE-DES-IDME-1,MVHF-CORE-DES-IDME-2,MVHF-CORE-DES-IDME-3,MVHF-CORE-DES-IDME-4,MVHF-CORE-DES-IDME-6 | MVHF-CORE-SW-REQ-11-1
 MVHF-CORE-DES-IDME-5 | MVHF-CORE-SW-REQ-11-2
-MVHF-CORE-DES-TRIG-1 | MVHF-CORE-SW-REQ-1-1
+MVHF-CORE-DES-TRIG-1,MVHF-CORE-DES-CSIG-1,MVHF-CORE-DES-CSIG-2 | MVHF-CORE-SW-REQ-1-1
 MVHF-CORE-DES-TRIG-2 | MVHF-CORE-SW-REQ-2-2
 MVHF-CORE-DES-TRIG-3 | MVHF-CORE-SW-REQ-1-1,MVHF-CORE-SW-REQ-2-1
 MVHF-CORE-DES-TRIG-4 | MVHF-CORE-SW-REQ-2-1
@@ -577,12 +597,12 @@ MVHF-CORE-DES-TRIG-5 | MVHF-CORE-SW-REQ-1-2,MVHF-CORE-SW-REQ-2-3
 MVHF-CORE-DES-TRIG-6 | MVHF-CORE-SW-REQ-2-1,MVHF-CORE-SW-REQ-2-2
 MVHF-CORE-DES-TRIG-7 | MVHF-CORE-SW-REQ-1-2
 MVHF-CORE-DES-TRIG-8 | MVHF-CORE-SW-REQ-1-3
+MVHF-CORE-DES-TRIG-9 | MVHF-CORE-SW-REQ-2-4
 MVHF-CORE-DES-WABU-1,MVHF-CORE-DES-WABU-2 | MVHF-CORE-SW-REQ-10-1
 MVHF-CORE-DES-WABU-3 | MVHF-CORE-SW-REQ-10-2
 MVHF-CORE-DES-WABU-4 | MVHF-CORE-SW-REQ-10-3,MVHF-CORE-SW-REQ-10-4
 MVHF-CORE-DES-WABU-5 | MVHF-CORE-SW-REQ-10-5
 MVHF-CORE-DES-NSEP-1 | TODO (software reqs)
 MVHF-CORE-DES-DIAD-1 | TODO (software reqs)
-MVHF-CORE-DES-CSIG-1 | TODO (software reqs)
 ---
 
