@@ -351,7 +351,7 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Core
                     the chains and enforce the updated consensus rules of the fork.
 
     Traceability:   MVHF-CORE-USER-REQ-2, MVHF-CORE-SW-REQ-2-1, MVHF-CORE-SW-REQ-2-2
-                    MVHF-CORE-SW-REQ-2-3, MVHF-CORE-SW-REQ-2-4
+                    MVHF-CORE-SW-REQ-2-3, MVHF-CORE-SW-REQ-2-4, MVHF-CORE-SW-REQ-2-5
 ---
     Requirement:    MVHF-CORE-SYS-REQ-3
 
@@ -646,11 +646,8 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Core
 
     Rationale:      This fulfils the SegWit part of the system requirement.
 
-    Notes:          SegWit (BIP141/143/147) deployment parameters have been set in
-                    https://github.com/bitcoin/bitcoin/pull/8937
-                    The source code release accompanying the official 0.13.1
-                    release should be examined for any deviations from the
-                    assumed BIP9 activation strategy.
+    Notes:          SegWit (BIP141/143/147) deployment parameters have been
+                    set in https://github.com/bitcoin/bitcoin/pull/8937 .
 
     Traceability:   MVHF-CORE-SYS-REQ-2
 ---
@@ -692,7 +689,32 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Core
 
     Notes:          -
 
-    Traceability:   MVHF-BU-SYS-REQ-2
+    Traceability:   MVHF-CORE-SYS-REQ-2
+---
+    Requirement:    MVHF-CORE-SW-REQ-2-5
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          PERSIST FORK ACTIVATION STATE IN CONFIG FILE
+
+    Text:           The client shall create a special configuration file
+                    in the datadir to persist the knowledge that it has
+                    already activated the fork.
+
+    Rationale:      The fork activation leads to some irrevocable
+                    actions (e.g. separating onto a different network)
+                    that need to be persisted when the node is shut down
+                    and later restarted.
+                    At startup, if this special config file is present,
+                    the software can take appropriate measures to ensure
+                    that it correctly operates on the forked network
+                    and avoids the old network.
+
+    Notes:          -
+
+    Traceability:   MVHF-CORE-SYS-REQ-2
 ---
     Requirement:    MVHF-CORE-SW-REQ-10-1
 
