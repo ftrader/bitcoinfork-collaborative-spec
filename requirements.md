@@ -370,7 +370,7 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
                     the chains and enforce the updated consensus rules of the fork.
 
     Traceability:   MVHF-BU-USER-REQ-2, MVHF-BU-SW-REQ-2-1, MVHF-BU-SW-REQ-2-2
-                    MVHF-BU-SW-REQ-2-3, MVHF-BU-SW-REQ-2-4
+                    MVHF-BU-SW-REQ-2-3, MVHF-BU-SW-REQ-2-4, MVHF-BU-SW-REQ-2-5
 ---
     Requirement:    MVHF-BU-SYS-REQ-3
 
@@ -729,6 +729,31 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
                     parameters of a running client visible to those with
                     RPC access seems just as important as providing
                     information on e.g. BIP9 soft-forks.
+
+    Notes:          -
+
+    Traceability:   MVHF-BU-SYS-REQ-2
+---
+    Requirement:    MVHF-BU-SW-REQ-2-5
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          PERSIST FORK ACTIVATION STATE IN CONFIG FILE
+
+    Text:           The client shall create a special configuration file
+                    in the datadir to persist the knowledge that it has
+                    already activated the fork.
+
+    Rationale:      The fork activation leads to some irrevocable
+                    actions (e.g. separating onto a different network)
+                    that need to be persisted when the node is shut down
+                    and later restarted.
+                    At startup, if this special config file is present,
+                    the software can take appropriate measures to ensure
+                    that it correctly operates on the forked network
+                    and avoids the old network.
 
     Notes:          -
 
