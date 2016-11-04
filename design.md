@@ -251,17 +251,57 @@ The active fork height value will be stored in a global variable
 (FinalActivateForkHeight) accessible from various parts of the code.
 
 
-####5.1.5 New global variable for fork trigger state (MVHF-BU-DES-TRIG-5)
+####5.1.5 New variables and config file for tracking fork activation states
+
+
+#####5.1.5.1 New global variables (MVHF-BU-DES-TRIG-5)
 
 A new boolean global variable, isMVFHardForkActive, will be added to
-track the activation state of the fork.
+track the present activation state of the fork's new consensus rules.
 It will be initialized to false and set to true when the block height of
-the active chain is at least equal to `FinalActivateForkHeight`.
+the active chain is at least equal to `FinalActivateForkHeight` or when
+the SegWit soft-fork activates.
 When the variable transitions to true, fork activation actions will be
 performed.
 If a re-org happens and the height of the active chain drops below the
 `FinalActivateForkHeight`, fork deactivation actions will be performed
 (i.e. reversion to pre-fork consensus rules).
+
+Another new boolean global variable, wasMVFHardForkPreviouslyActivated,
+will be added for tracking the activation state of the fork across
+program restarts.
+It will be initialized to false and set to true only if a btcfork.conf
+configuration file is found at startup (ref TODO).
+If this variable is set to true, certain one-off fork activation actions
+(e.g. network separation and the automatic wallet backup) will be skipped.
+
+
+#####5.1.5.2 btcfork.conf configuration file (MVHF-BU-DES-TRIG-10)
+
+Certain forking actions, such as separating to a different network,
+should be performed only once and persisted across restarts of the
+client.
+
+The software will not modify the user's existing configuration file
+(bitcoin.conf) automatically as that would be too risky (some users
+re-use the same configuration file for several clients).
+
+Instead, when the fork activates, the client will write out fork-relevant
+configuration items into a separate configuration file (btcfork.conf) in
+the datadir.
+
+If this file is present during startup, the client software will know
+that the fork has been activated already.
+
+Primarily, this will be used to connect to the new (forked) network instead
+of the old network.
+
+The software shall also warn the user at startup that certain fork
+configuration parameters can be integrated (manually) into the existing
+configuration file (bitcoin.conf), whereupon the btcfork.conf file may
+be removed (since the node is past the fork activation point, another fork
+activation will not be performed unless non-default fork parameters are
+specified by the user via command line or the configuration file.
 
 
 ####5.1.6 Fork activation procedure (MVHF-BU-DES-TRIG-6)
@@ -293,6 +333,7 @@ TODO: elaborate
 
 Help text listing the MVF-BU specific new parameters and their allowed
 values will be added to the output of the `--help` option, as is customary.
+
 
 ####5.1.9 Output fork trigger information on `getblockchaininfo` RPC call (MVHF-BU-DES-TRIG-9)
 
