@@ -808,7 +808,7 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
                     - Blocks A+44..A+101: retarget every 6 blocks (~1hr)
                     - Blocks A+102..A+2011: retarget every 18 blocks ~(3hrs)
                     - Blocks A+2012..A+(180*144)-1: retarget every 72 blocks ~(12hrs)
-                    - Blocks A+(180*144)..onward: back to every 2016 blocks (~2 weeks)
+                    - Blocks A+(180*144)..onward: revert back to every 2016 blocks (~2 weeks)
 
     Rationale:      The size of the difficulty retargeting window can be
                     determined simply according to the block height.
