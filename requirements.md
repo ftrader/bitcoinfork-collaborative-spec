@@ -510,13 +510,16 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
     Text:           Upon triggering of the fork, the system shall reduce
                     the difficulty retargeting period and deterministically
                     recover to the current 2016 block (~2 week) adjustment
-                    period.
+                    period over a span of 180*144 (25920) blocks.
 
     Rationale:      refer to MVHF-BU-USER-REQ-8
 
-    Notes:          A safe minimum retargeting period still has
-                    to be determined. The reduction and recovery requirements
-                    can be made precise in software requirements.
+    Notes:          A minimum retargeting period of 'every block' has
+                    been chosen for the period directly after the fork.
+                    This retargeting window is increased according to
+                    a fixed schedule (ref. MVHF-BU-SW-REQ-8-1 for details).
+                    The retargeting period would recover to default 2 weeks
+                    after about half a year (180*144 blocks).
 
     Traceability:   MVHF-BU-USER-REQ-8
 ---
