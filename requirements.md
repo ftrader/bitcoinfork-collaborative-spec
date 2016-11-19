@@ -824,7 +824,8 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
                     match the hash rate well and block intervals may deviate
                     significantly from the target timespan of 10 minute average.
                     However, during the initial per-block cycle a more
-                    aggressive difficulty adjustment will be allowed.
+                    responsive difficulty adjustment will be allowed
+                    (ref. MVHF-BU-SW-REQ-8-2).
 
     Traceability:   MVHF-BU-SYS-REQ-8
 ---
