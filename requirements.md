@@ -759,6 +759,118 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
 
     Traceability:   MVHF-BU-SYS-REQ-2
 ---
+    Requirement:    MVHF-BU-SW-REQ-7-1
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          DIFFICULTY RESET TO LOWER VALUE AT FORK ACTIVATION
+
+    Text:           When the fork is activated, the client shall reset the
+                    expected difficulty to an initial value determined
+                    according to the network the client is running on:
+                    - mainnet (operational network): TBD
+                    - testnet3 (test network): TBD
+                    - nolnet (BU no-limit test network): TBD
+                    - regtest (regression test): TBD (provisionally corresponding to nBits=0x207fffff)
+
+    Rationale:      MVHF-BU-USER-REQ-7
+
+    Notes:          Initial difficulty, like POW limit, would vary
+                    depending on the network (mainnet, testnet, regtest...)
+                    For regtest, the difficulty will be reset to the
+                    standard regtest network POW limit.
+                    For other networks, the reset value should be proportionally
+                    lower than the regular difficulty on that network, to
+                    allow fork mining to start even if fork miner have a
+                    hashrate minority.
+
+    Traceability:   MVHF-BU-SYS-REQ-7
+---
+    Requirement:    MVHF-BU-SW-REQ-8-1
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          FASTER RETARGETING OVER A PERIOD OF MODIFIED DIFFICULTY ADJUSTMENT
+
+    Text:           The client shall follow a predetermined schedule of
+                    faster-than-normal retargeting during a period following
+                    the fork activation.
+                    The schedule after the fork activation height A shall be as follows:
+                    - Blocks A+1..A+10: retarget every block (~10 mins)
+                    - Blocks A+11..A+43: retarget every 3 blocks (~30 mins)
+                    - Blocks A+44..A+101: retarget every 6 blocks (~1hr)
+                    - Blocks A+102..A+2011: retarget every 18 blocks ~(3hrs)
+                    - Blocks A+2012..A+(180*144)-1: retarget every 72 blocks ~(12hrs)
+                    - Blocks A+(180*144)..onward: back to every 2016 blocks (~2 weeks)
+
+    Rationale:      The size of the difficulty retargeting window can be
+                    determined simply according to the block height.
+                    A long period (~180 days) of reduced retargeting intervals
+                    has been chosen as this gives a comfortable duration where
+                    faster response to changing hashrate is possible.
+                    We do not expect another planned hard fork within less than
+                    1 year after this fork activates - this would give
+                    the difficulty retargeting half that timespan to recover
+                    to the regular 2016-block cycle.
+
+    Notes:          1. The fork activation height can be either the fixed fork
+                    height or the height at which the fork activated due to
+                    SegWit soft-fork activation.
+                    2. Directly after the fork, the difficulty may not yet
+                    match the hash rate well and block intervals may deviate
+                    significantly from the target timespan of 10 minute average.
+                    However, during the initial per-block cycle a more
+                    aggressive difficulty adjustment will be allowed.
+
+    Traceability:   MVHF-BU-SYS-REQ-8
+---
+    Requirement:    MVHF-BU-SW-REQ-8-2
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          OPEN DIFFICULTY ADJUSTMENT DIRECTLY AFTER FORK
+
+    Text:           The client shall allow adjustment to the difficulty
+                    to circumvent the usual "factor of 4" constraint during
+                    the initial post-fork period when block timespan targets
+                    are less than 30 minutes.
+
+    Rationale:      The "factor of 4" constraint may be too restrictive to
+                    let the fork chain converge to a suitable difficulty
+                    fast enough. This allows a short (10 block) period of
+                    stronger adjustment.
+
+    Notes:          Difficulty adjustment remains bounded on the lower end
+                    by the POW limit in effect on the network.
+
+    Traceability:   MVHF-BU-SYS-REQ-8
+---
+    Requirement:    MVHF-BU-SW-REQ-8-3
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          ACTIVE RETARGETING INTERVAL AVAILABLE VIA RPC CALL
+
+    Text:           The client shall allow display the active retargeting
+                    interval (in number of blocks) in the 'difficultyadjinterval'
+                    output of the 'getblockchaininfo' RPC call.
+
+    Rationale:      To let users inspect the current difficulty retargeting
+                    interval, and also to let automated software tests
+                    verify that expected retargeting intervals are observed.
+
+    Notes:          -
+
+    Traceability:   MVHF-BU-SYS-REQ-8
+---
     Requirement:    MVHF-BU-SW-REQ-10-1
 
     Origin:         BTCfork
