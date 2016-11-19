@@ -367,7 +367,34 @@ See 5.1.1 (TODO: check reference accuracy) for description of the common files.
 
 ###5.3 Difficulty Adjustment (DIAD)
 
-To be completed: difficulty adjustment (reset and algorithm to revert back to old behaviour)
+As a non-elective spin-off, the MVF finds itself in the situation of a
+possible minority hard fork as far as hashpower is concerned.
+
+The difficulty adjustment will be modified as follows to cope with this
+circumstance:
+
+- there will be a reset to a lowered difficulty when the fork activates
+- the interval at which difficulty is re-evaluated will be shortened
+  when the fork activates
+- for a short time after the fork activates, a larger difficulty adjustment
+  than usual will be allowed (in fact, an unconstrained adjustment, only
+  bounded by the POW limit)
+- for a fixed period of time, significantly shortened difficulty retargeting
+  intervals (of the order of hours instead of weeks) will be in effect
+
+Together, these changes should allow sufficient responsiveness to large
+changes in network hashpower.
+
+NOTE: the algorithm still targets 600 seconds average block confirmation time
+(this property of Bitcoin is not changed by the MVF).
+
+The retargeting algorithm will revert to its pre-fork behavior after a
+span of 180*144 post-fork blocks. That equals roughly half a year, with
+deviations due to probable error in estimating initial hashrate, unpredictable
+changes in network hashrate etc.
+
+After that, the usual 2016 block retargeting period will take effect again,
+and difficulty adjustments likewise will be constrained as before.
 
 
 ####5.3.1 Extracted common definitions (MVHF-BU-DES-DIAD-1)
@@ -378,6 +405,80 @@ other files will be extracted into the MVF-BU specific common files:
 - difficulty reset value for various networks (mainnet, testnet, regtestnet, nolnet)
 
 See 5.1.1 (TODO: check reference accuracy) for description of the common files.
+
+
+####5.3.2 Reset of difficulty at fork activation time (MVHF-BU-DES-DIAD-2)
+
+The lowered difficulty values have not yet been finally decided.
+
+On regtest network, the POW limit (~ nBits=0x207fffff) will be used.
+
+
+####5.3.3 Faster retargeting following fork activation (MVHF-BU-DES-DIAD-3)
+
+For a limited number of blocks following the fork activation,
+special retargeting and difficulty adjustment rules will be in effect.
+
+If the fork activates at height A, retargeting will occur according to the
+following schedule:
+- Blocks A+1..A+10: retarget every block (~10 mins)
+- Blocks A+11..A+43: retarget every 3 blocks (~30 mins)
+- Blocks A+44..A+101: retarget every 6 blocks (~1hr)
+- Blocks A+102..A+2011: retarget every 18 blocks ~(3hrs)
+- Blocks A+2012..A+(180*144)-1: retarget every 72 blocks ~(12hrs)
+- Blocks A+(180*144)..onward: back to every 2016 blocks (~2 weeks)
+
+A new function, MVFPowTargetTimespan(Height) will return the targeting
+timespan (in seconds) for a given block height past the fork activation.
+This will be used in DifficultyAdjustmentInterval() to return
+a height-dependent number of blocks instead of the fixed 2016.
+
+To facilitate this, DifficultyAdjustmentInterval() will be extended to
+take a height parameter and return the MVF-specific interval while
+in the fork recovery period.
+
+
+####5.3.4 Recovery of retargeting to at fork activation time (MVHF-BU-DES-DIAD-4)
+
+Difficulty retargeting and adjustment will revert to their pre-fork
+behavior when a pre-set number of blocks ("end of retargeting recovery")
+past the fork activation point is reached.
+
+
+####5.3.5 Free difficulty adjustment during per-block retargeting (MVHF-BU-DES-DIAD-5)
+
+Usually, changes in difficulty are constrained by a "factor of 4" check
+to prevent very rapid swings.
+
+During the time directly after the fork triggers, the difficulty needs to
+adapt very rapidly to the actual hashrate, in order to converge back to
+the target timespan of average 10 minutes per block.
+
+Therefore, as long as the retargeting interval is equal to one block,
+the difficulty will be allowed to adjust freely.
+
+
+####5.3.6 --force-retarget parameter for regtest testing (MVHF-BU-DES-DIAD-6)
+
+To be able to test the difficulty adjustment during MVF retargeting on
+regtest network, it is necessary to override the logic that usually
+short-circuits the full difficulty calculation on regtest.
+
+A new command line parameter, `--force-retarget`, will be added to enable
+the full difficulty calculations so that system tests can use it to test
+the retargeting.
+This parameter will have no side effect when used on non-regtest networks.
+
+
+####5.3.7 `difficultyadjinterval` field for `getblockchaininfo` RPC (MVHF-BU-DES-DIAD-7)
+
+To facilitiate verification of the difficulty adjustment intervals before,
+during and after the fork's retargeting recovery period, a new entry
+`difficultyadjinterval` entry will be added to the output of the
+`getblockchaininfo` RPC call.
+
+TODO: would it be useful to have another entry indicating how many blocks
+remain until the next difficulty retarget?
 
 
 ###5.4 Change of Transaction Signatures (CSIG)
@@ -626,9 +727,11 @@ MVHF-BU-SW-REQ-10-4 | MVHF-BU-DES-WABU-4
 MVHF-BU-SW-REQ-10-5 | MVHF-BU-DES-WABU-5
 MVHF-BU-SW-REQ-11-1 | MVHF-BU-DES-IDME-1,MVHF-BU-DES-IDME-2,MVHF-BU-DES-IDME-3,MVHF-BU-DES-IDME-4,MVHF-BU-DES-IDME-6
 MVHF-BU-SW-REQ-11-2 | MVHF-BU-DES-IDME-5
+MVHF-BU-SW-REQ-7-1 | MVHF-BU-DES-DIAD-1,MVHF-BU-DES-DIAD-2
+MVHF-BU-SW-REQ-8-1 | MVHF-BU-DES-DIAD-1,MVHF-BU-DES-DIAD-3,MVHF-BU-DES-DIAD-4,MVHF-BU-DES-DIAD-6
+MVHF-BU-SW-REQ-8-2 | MVHF-BU-DES-DIAD-5
+MVHF-BU-SW-REQ-8-3 | MVHF-BU-DES-DIAD-7
 TODO (software reqs) | MVHF-BU-DES-NSEP-1
-TODO (software reqs) | MVHF-BU-DES-DIAD-1
-
 
 ###6.2 Design -> requirements
 
@@ -658,6 +761,10 @@ MVHF-BU-DES-WABU-3 | MVHF-BU-SW-REQ-10-2
 MVHF-BU-DES-WABU-4 | MVHF-BU-SW-REQ-10-3,MVHF-BU-SW-REQ-10-4
 MVHF-BU-DES-WABU-5 | MVHF-BU-SW-REQ-10-5
 MVHF-BU-DES-NSEP-1 | TODO (software reqs)
-MVHF-BU-DES-DIAD-1 | TODO (software reqs)
+MVHF-BU-DES-DIAD-1 | MVHF-BU-SW-REQ-7-1,MVHF-BU-SW-REQ-8-1
+MVHF-BU-DES-DIAD-2 | MVHF-BU-SW-REQ-7-1
+MVHF-BU-DES-DIAD-3,MVHF-BU-DES-DIAD-4,MVHF-BU-DES-DIAD-6 | MVHF-BU-SW-REQ-8-1
+MVHF-BU-DES-DIAD-5 | MVHF-BU-SW-REQ-8-2
+MVHF-BU-DES-DIAD-7 | MVHF-BU-SW-REQ-8-3
 ---
 
