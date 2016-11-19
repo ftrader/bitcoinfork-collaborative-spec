@@ -859,9 +859,9 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
 
     Title:          ACTIVE RETARGETING INTERVAL AVAILABLE VIA RPC CALL
 
-    Text:           The client shall allow display the active retargeting
+    Text:           The client shall output the active retargeting
                     interval (in number of blocks) in the 'difficultyadjinterval'
-                    output of the 'getblockchaininfo' RPC call.
+                    field returned by the 'getblockchaininfo' RPC call.
 
     Rationale:      To let users inspect the current difficulty retargeting
                     interval, and also to let automated software tests
