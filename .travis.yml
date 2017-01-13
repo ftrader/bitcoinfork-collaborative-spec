@@ -1,0 +1,12 @@
+language: python
+cache: pip
+python:
+  - "2.7"
+
+before_script:
+  - if [ "$TRAVIS_PYTHON_VERSION" == "pypy" ]; then export PYTHON_EXE=pypy; export PIP_EXE=pip; else export PYTHON_EXE=python; fi
+
+install:
+  - pip install spec-checker
+
+script: spec_checker_cli --version
