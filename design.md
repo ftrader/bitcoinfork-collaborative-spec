@@ -421,31 +421,49 @@ special retargeting and difficulty adjustment rules will be in effect.
 
 If the fork activates at height A, retargeting will occur according to the
 following schedule:
-- Blocks A+1..A+10: retarget every block (~10 mins)
-- Blocks A+11..A+43: retarget every 3 blocks (~30 mins)
-- Blocks A+44..A+101: retarget every 6 blocks (~1hr)
-- Blocks A+102..A+2011: retarget every 18 blocks ~(3hrs)
-- Blocks A+2012..A+(180*144)-1: retarget every 72 blocks ~(12hrs)
-- Blocks A+(180*144)..onward: back to every 2016 blocks (~2 weeks)
-
-A new function, MVFPowTargetTimespan(Height) will return the targeting
-timespan (in seconds) for a given block height past the fork activation.
-This will be used in DifficultyAdjustmentInterval() to return
-a height-dependent number of blocks instead of the fixed 2016.
+- Blocks A+1..A+2017: retarget every block (~10 mins)
+- Blocks A+2018..A+4000: retarget every 10 blocks (~100 mins)
+- Blocks A+4001..A+10000: retarget every 40 blocks (~6.7hrs)
+- Blocks A+10001..A+15000: retarget every 100 blocks (~16.7hrs)
+- Blocks A+15001..A+20000: retarget every 400 blocks (~2.7days)
+- Blocks A+20001..A+(180*144)+1: retarget every 1000 blocks (~6.9days)
+- Blocks A+(180*144)+2..onward: revert back to every 2016 blocks (~2 weeks)
 
 To facilitate this, DifficultyAdjustmentInterval() will be extended to
 take a height parameter and return the MVF-specific interval while
 in the fork recovery period.
 
 
-####5.3.4 Recovery of retargeting to at fork activation time (MVHF-BU-DES-DIAD-4)
+####5.3.4 Reduced averaging timespan (MVHF-BU-DES-DIAD-8)
+
+The averaging timespan (lookback window) will be allowed to vary
+independently from the retargeting interval.
+
+A new function, MVFPowTargetTimespan(Height) will return the targeting
+timespan (in seconds) for a given block height past the fork activation.
+
+If the fork activates at height A, retargeting will occur according to the
+following schedule:
+- Blocks A+1..A+8: average over 10 minutes (~1 block)
+- Blocks A+9..A+47: average over 1 hour (~6 blocks)
+- Blocks A+48..A+154: average over 6 hours (~36 blocks)
+- Blocks A+155..A+300: average over 12 hours (~72 block)
+- Blocks A+301..A+1300: average over 1 day (~144 blocks)
+- Blocks A+1301..A+5000: average over 2 days (~288 blocks)
+- Blocks A+5001..A+10000: average over 3 days (~432 blocks)
+- Blocks A+10001..A+15000: average over 4 days (~576 blocks)
+- Blocks A+15001..A+(180*144)+1: retarget every 8 days (~1152 blocks)
+- Blocks A+(180*144)+2..onward: revert back to every 2016 blocks (~2 weeks)
+
+
+####5.3.5 Recovery of retargeting to at fork activation time (MVHF-BU-DES-DIAD-4)
 
 Difficulty retargeting and adjustment will revert to their pre-fork
 behavior when a pre-set number of blocks ("end of retargeting recovery")
 past the fork activation point is reached.
 
 
-####5.3.5 Free difficulty adjustment during per-block retargeting (MVHF-BU-DES-DIAD-5)
+####5.3.6 Free difficulty adjustment during per-block retargeting (MVHF-BU-DES-DIAD-5)
 
 Usually, changes in difficulty are constrained by a "factor of 4" check
 to prevent very rapid swings.
@@ -458,7 +476,7 @@ Therefore, as long as the retargeting interval is equal to one block,
 the difficulty will be allowed to adjust freely.
 
 
-####5.3.6 --force-retarget parameter for regtest testing (MVHF-BU-DES-DIAD-6)
+####5.3.7 --force-retarget parameter for regtest testing (MVHF-BU-DES-DIAD-6)
 
 To be able to test the difficulty adjustment during MVF retargeting on
 regtest network, it is necessary to override the logic that usually
@@ -470,7 +488,7 @@ the retargeting.
 This parameter will have no side effect when used on non-regtest networks.
 
 
-####5.3.7 `difficultyadjinterval` field for `getblockchaininfo` RPC (MVHF-BU-DES-DIAD-7)
+####5.3.8 `difficultyadjinterval` field for `getblockchaininfo` RPC (MVHF-BU-DES-DIAD-7)
 
 To facilitiate verification of the difficulty adjustment intervals before,
 during and after the fork's retargeting recovery period, a new entry
@@ -479,6 +497,14 @@ during and after the fork's retargeting recovery period, a new entry
 
 TODO: would it be useful to have another entry indicating how many blocks
 remain until the next difficulty retarget?
+
+
+####5.3.9 `difficultytimespan` field for `getblockchaininfo` RPC (MVHF-BU-DES-DIAD-9)
+
+To facilitiate verification of the difficulty adjustment averaging timespan
+before, during and after the fork's retargeting recovery period, a new entry
+`difficultytimespan` entry will be added to the output of the
+`getblockchaininfo` RPC call.
 
 
 ###5.4 Change of Transaction Signatures (CSIG)
@@ -720,18 +746,22 @@ MVHF-BU-SW-REQ-2-2 | MVHF-BU-DES-TRIG-2,MVHF-BU-DES-TRIG-6
 MVHF-BU-SW-REQ-2-3 | MVHF-BU-DES-TRIG-5
 MVHF-BU-SW-REQ-2-4 | MVHF-BU-DES-TRIG-9
 MVHF-BU-SW-REQ-2-5 | MVHF-BU-DES-TRIG-10
-MVHF-BU-SW-REQ-10-1 | MVHF-BU-DES-WABU-1,MVHF-BU-DES-WABU-2
-MVHF-BU-SW-REQ-10-2 | MVHF-BU-DES-WABU-3
-MVHF-BU-SW-REQ-10-3 | MVHF-BU-DES-WABU-4
-MVHF-BU-SW-REQ-10-4 | MVHF-BU-DES-WABU-4
-MVHF-BU-SW-REQ-10-5 | MVHF-BU-DES-WABU-5
-MVHF-BU-SW-REQ-11-1 | MVHF-BU-DES-IDME-1,MVHF-BU-DES-IDME-2,MVHF-BU-DES-IDME-3,MVHF-BU-DES-IDME-4,MVHF-BU-DES-IDME-6
-MVHF-BU-SW-REQ-11-2 | MVHF-BU-DES-IDME-5
+MVHF-BU-SW-REQ-5-1 | MVHF-BU-DES-NSEP-1
+MVHF-BU-SW-REQ-6-1 | TODO
 MVHF-BU-SW-REQ-7-1 | MVHF-BU-DES-DIAD-1,MVHF-BU-DES-DIAD-2
 MVHF-BU-SW-REQ-8-1 | MVHF-BU-DES-DIAD-1,MVHF-BU-DES-DIAD-3,MVHF-BU-DES-DIAD-4,MVHF-BU-DES-DIAD-6
 MVHF-BU-SW-REQ-8-2 | MVHF-BU-DES-DIAD-5
 MVHF-BU-SW-REQ-8-3 | MVHF-BU-DES-DIAD-7
-TODO (software reqs) | MVHF-BU-DES-NSEP-1
+MVHF-BU-SW-REQ-8-4 | MVHF-BU-DES-DIAD-8
+MVHF-BU-SW-REQ-8-5 | MVHF-BU-DES-DIAD-9
+MVHF-BU-SW-REQ-10-1 | MVHF-BU-DES-WABU-1,MVHF-BU-DES-WABU-2
+MVHF-BU-SW-REQ-10-2 | MVHF-BU-DES-WABU-3
+MVHF-BU-SW-REQ-10-3 | MVHF-BU-DES-WABU-4
+MVHF-BU-SW-REQ-10-4 | MVHF-BU-DES-WABU-4
+MVHF-BU-SW-REQ-10-5 | MVHF-BU-DES-WABU-2
+MVHF-BU-SW-REQ-10-6 | MVHF-BU-DES-WABU-6
+MVHF-BU-SW-REQ-11-1 | MVHF-BU-DES-IDME-1,MVHF-BU-DES-IDME-2,MVHF-BU-DES-IDME-3,MVHF-BU-DES-IDME-4,MVHF-BU-DES-IDME-6
+MVHF-BU-SW-REQ-11-2 | MVHF-BU-DES-IDME-5
 
 ###6.2 Design -> requirements
 
@@ -756,15 +786,18 @@ MVHF-BU-DES-TRIG-7 | MVHF-BU-SW-REQ-1-2
 MVHF-BU-DES-TRIG-8 | MVHF-BU-SW-REQ-1-3
 MVHF-BU-DES-TRIG-9 | MVHF-BU-SW-REQ-2-4
 MVHF-BU-DES-TRIG-10| MVHF-BU-SW-REQ-2-5
-MVHF-BU-DES-WABU-1,MVHF-BU-DES-WABU-2 | MVHF-BU-SW-REQ-10-1
+MVHF-BU-DES-WABU-1 | MVHF-BU-SW-REQ-10-1
+MVHF-BU-DES-WABU-2 | MVHF-BU-SW-REQ-10-1,MVHF-BU-SW-REQ-10-6
 MVHF-BU-DES-WABU-3 | MVHF-BU-SW-REQ-10-2
 MVHF-BU-DES-WABU-4 | MVHF-BU-SW-REQ-10-3,MVHF-BU-SW-REQ-10-4
 MVHF-BU-DES-WABU-5 | MVHF-BU-SW-REQ-10-5
-MVHF-BU-DES-NSEP-1 | TODO (software reqs)
+MVHF-BU-DES-NSEP-1 | MVHF-BU-SW-REQ-5-1
 MVHF-BU-DES-DIAD-1 | MVHF-BU-SW-REQ-7-1,MVHF-BU-SW-REQ-8-1
 MVHF-BU-DES-DIAD-2 | MVHF-BU-SW-REQ-7-1
 MVHF-BU-DES-DIAD-3,MVHF-BU-DES-DIAD-4,MVHF-BU-DES-DIAD-6 | MVHF-BU-SW-REQ-8-1
 MVHF-BU-DES-DIAD-5 | MVHF-BU-SW-REQ-8-2
 MVHF-BU-DES-DIAD-7 | MVHF-BU-SW-REQ-8-3
+MVHF-BU-DES-DIAD-8 | MVHF-BU-SW-REQ-8-4
+MVHF-BU-DES-DIAD-9 | MVHF-BU-SW-REQ-8-5
 ---
 

@@ -398,8 +398,14 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
                     appropriate default settings (EBS, MGS) conducive to
                     immediate formation (mining and relay) of a >1MB block in
                     the forked chain.
+                    3. TODO: Consider what should happen if longest valid
+                    chain contains > 1MB block prior to scheduled activation
+                    of the fork. This could indicate a majority fork.
+                    Possible actions are to immediately spin off, to
+                    proceed as usual to the fork activation, or to cancel
+                    the fork activation and simply stay with the BU chain.
 
-    Traceability:   MVHF-BU-USER-REQ-3
+    Traceability:   MVHF-BU-USER-REQ-3, MVHF-BU-SW-REQ-4-1
 ---
     Requirement:    MVHF-BU-SYS-REQ-4
 
@@ -428,7 +434,7 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
                     in control of further evolution of the block size, by
                     configuring the appropriate parameters (EBS, AD, MGS etc).
 
-    Traceability:   MVHF-BU-USER-REQ-4
+    Traceability:   MVHF-BU-USER-REQ-4, MVHF-BU-SW-REQ-4-1
 ---
     Requirement:    MVHF-BU-SYS-REQ-5
 
@@ -451,7 +457,7 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
                     fully realized, then at least nodes of the different
                     networks shall part ways as swiftly as possible.
 
-    Traceability:   MVHF-BU-USER-REQ-5
+    Traceability:   MVHF-BU-USER-REQ-5, MVHF-BU-SW-REQ-5-1
 ---
     Requirement:    MVHF-BU-SYS-REQ-6
 
@@ -470,7 +476,7 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
                     configuration file which could be adjusted without
                     needing to rebuild executables.
 
-    Traceability:   MVHF-BU-USER-REQ-6
+    Traceability:   MVHF-BU-USER-REQ-6, MVHF-BU-SW-REQ-6-1
 ---
     Requirement:    MVHF-BU-SYS-REQ-7
 
@@ -508,18 +514,25 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
     Title:          ADJUSTMENT OF DIFFICULTY RETARGETING PERIOD
 
     Text:           Upon triggering of the fork, the system shall reduce
-                    the difficulty retargeting period and deterministically
-                    recover to the current 2016 block (~2 week) adjustment
-                    period over a span of 180*144 (25920) blocks.
+                    the difficulty retargeting period and averaging timespan
+                    and deterministically recover to the current 2016 block
+                    (~2 week) adjustment period and averaging timespan over
+                    a span of 180*144 (25920) blocks.
 
     Rationale:      refer to MVHF-BU-USER-REQ-8
 
-    Notes:          A minimum retargeting period of 'every block' has
+    Notes:          1. A minimum retargeting period of 'every block' has
                     been chosen for the period directly after the fork.
                     This retargeting window is increased according to
                     a fixed schedule (ref. MVHF-BU-SW-REQ-8-1 for details).
                     The retargeting period would recover to default 2 weeks
                     after about half a year (180*144 blocks).
+                    2. The size of the averaging timespan is also reduced
+                    to a minimum of one block and gradually increased until
+                    it recovers to the ~2 week adjustment period after the
+                    fork span of 180*144 (25920) blocks.
+                    3. The design shall accomodate the retargeting period
+                    and averaging timespan as independent variables.
 
     Traceability:   MVHF-BU-USER-REQ-8
 ---
@@ -762,6 +775,73 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
 
     Traceability:   MVHF-BU-SYS-REQ-2
 ---
+    Requirement:    MVHF-BU-SW-REQ-4-1
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          DEFAULT VALUE OF 2MB FOR BLOCK SIZE PARAMETERS AFTER FORK
+
+    Text:           The client shall enforce a minimum of 2,000,000 bytes
+                    for the default and active values of Excessive
+                    Blocksize (EB) parameter and Mining Generation Size
+                    (MGS) after the fork has activated.
+
+    Rationale:      These conservative defaults and minima are intended to
+                    buy some time for other client implementations to
+                    implement technologies which will allow them to
+                    interoperate with > 2MB blocks.
+
+    Notes:          1.As these parameters are under user control, this
+                    requirement does not preclude a majority user decision
+                    to implement > 2MB blocks even directly post-fork.
+                    It does aim to guarantee that blocks up to 2MB will
+                    be accepted without problem regardless.
+                    This should make for easy interoperability with clients
+                    that have not yet implemented BU's emergent consensus
+                    algorithm for block size.
+
+    Traceability:   MVHF-BU-SYS-REQ-3, MVHF-BU-SYS-REQ-4
+---
+    Requirement:    MVHF-BU-SW-REQ-5-1
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          USE DIFFERENT MESSAGE START BYTES (NETMAGIC) AFTER FORK
+
+    Text:           The client shall use different network message
+                    start bytes (netmagic) as soon as the fork is
+                    activated.
+
+    Rationale:      Using different netmagic ensures that post-fork,
+                    peer to peer messages from the old chain's nodes
+                    are only processed minimally.
+
+    Notes:          -
+
+    Traceability:   MVHF-BU-SYS-REQ-5
+---
+    Requirement:    MVHF-BU-SW-REQ-6-1
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          DO NOT USE EXISTING NETWORK SEEDS
+
+    Text:           The client shall not use existing network seed
+                    addresses for DNS and static seed nodes.
+
+    Rationale:      The forked network should use its own seeds to reduce
+                    connection attempts to the unforked network nodes.
+
+    Notes:          -
+
+    Traceability:   MVHF-BU-SYS-REQ-6
+---
     Requirement:    MVHF-BU-SW-REQ-7-1
 
     Origin:         BTCfork
@@ -776,12 +856,13 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
                     - mainnet (operational network): TBD
                     - testnet3 (test network): TBD
                     - nolnet (BU no-limit test network): TBD
+                    - bfgtest (BTCfork genesis test network): TBD
                     - regtest (regression test): TBD (provisionally corresponding to nBits=0x207fffff)
 
     Rationale:      MVHF-BU-USER-REQ-7
 
     Notes:          Initial difficulty, like POW limit, would vary
-                    depending on the network (mainnet, testnet, regtest...)
+                    depending on the network (mainnet, testnet, bfgtest...)
                     For regtest, the difficulty will be reset to the
                     standard regtest network POW limit.
                     For other networks, the reset value should be proportionally
@@ -803,12 +884,13 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
                     faster-than-normal retargeting during a period following
                     the fork activation.
                     The schedule after the fork activation height A shall be as follows:
-                    - Blocks A+1..A+10: retarget every block (~10 mins)
-                    - Blocks A+11..A+43: retarget every 3 blocks (~30 mins)
-                    - Blocks A+44..A+101: retarget every 6 blocks (~1hr)
-                    - Blocks A+102..A+2011: retarget every 18 blocks ~(3hrs)
-                    - Blocks A+2012..A+(180*144)-1: retarget every 72 blocks ~(12hrs)
-                    - Blocks A+(180*144)..onward: revert back to every 2016 blocks (~2 weeks)
+                    - Blocks A+1..A+2017: retarget every block (~10 mins)
+                    - Blocks A+2018..A+4000: retarget every 10 blocks (~100 mins)
+                    - Blocks A+4001..A+10000: retarget every 40 blocks (~6.7hrs)
+                    - Blocks A+10001..A+15000: retarget every 100 blocks (~16.7hrs)
+                    - Blocks A+15001..A+20000: retarget every 400 blocks (~2.7days)
+                    - Blocks A+20001..A+(180*144)+1: retarget every 1000 blocks (~6.9days)
+                    - Blocks A+(180*144)+2..onward: revert back to every 2016 blocks (~2 weeks)
 
     Rationale:      The size of the difficulty retargeting window can be
                     determined simply according to the block height.
@@ -838,16 +920,16 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
 
     Type:           Functional
 
-    Title:          OPEN DIFFICULTY ADJUSTMENT DIRECTLY AFTER FORK
+    Title:          STRONGER DIFFICULTY ADJUSTMENT DIRECTLY AFTER FORK
 
     Text:           The client shall allow adjustment to the difficulty
-                    to circumvent the usual "factor of 4" constraint during
-                    the initial post-fork period when block timespan targets
-                    are less than 30 minutes.
+                    by a factor of 10 instead of the usual factor of 4
+                    constraint during the initial post-fork period when
+                    block timespan targets are less than 30 minutes.
 
     Rationale:      The "factor of 4" constraint may be too restrictive to
                     let the fork chain converge to a suitable difficulty
-                    fast enough. This allows a short (10 block) period of
+                    fast enough. This allows a short (8 block) period of
                     stronger adjustment.
 
     Notes:          Difficulty adjustment remains bounded on the lower end
@@ -870,6 +952,71 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
     Rationale:      To let users inspect the current difficulty retargeting
                     interval, and also to let automated software tests
                     verify that expected retargeting intervals are observed.
+
+    Notes:          -
+
+    Traceability:   MVHF-BU-SYS-REQ-8
+---
+    Requirement:    MVHF-BU-SW-REQ-8-4
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          REDUCED AVERAGING TIMESPAN OVER A PERIOD OF MODIFIED DIFFICULTY ADJUSTMENT
+
+    Text:           The client shall follow a predetermined schedule of
+                    reduced averaging timespans for its difficulty adjustment
+                    calculations during a period following the fork activation.
+                    The schedule after the fork activation height A shall be as follows:
+                    - Blocks A+1..A+8: average over 10 minutes (~1 block)
+                    - Blocks A+9..A+47: average over 1 hour (~6 blocks)
+                    - Blocks A+48..A+154: average over 6 hours (~36 blocks)
+                    - Blocks A+155..A+300: average over 12 hours (~72 block)
+                    - Blocks A+301..A+1300: average over 1 day (~144 blocks)
+                    - Blocks A+1301..A+5000: average over 2 days (~288 blocks)
+                    - Blocks A+5001..A+10000: average over 3 days (~432 blocks)
+                    - Blocks A+10001..A+15000: average over 4 days (~576 blocks)
+                    - Blocks A+15001..A+(180*144)+1: retarget every 8 days (~1152 blocks)
+                    - Blocks A+(180*144)+2..onward: revert back to every 2016 blocks (~2 weeks)
+
+    Rationale:      The size of the averaging timespan can be
+                    determined simply according to the block height.
+                    A long period (~180 days) of reduced averaging timespans
+                    has been chosen as this gives a comfortable duration where
+                    faster response to changing hashrate is possible.
+                    We do not expect another planned hard fork within less than
+                    1 year after this fork activates - this would give
+                    the difficulty retargeting half that timespan to recover
+                    to the regular 2016-block averaging timespan.
+
+    Notes:          1. The fork activation height can be either the fixed fork
+                    height or the height at which the fork activated due to
+                    SegWit soft-fork activation.
+                    2. Directly after the fork, the difficulty may not yet
+                    match the hash rate well and block intervals may deviate
+                    significantly from the target timespan of 10 minute average.
+                    However, during the initial per-block cycle a more
+                    responsive difficulty adjustment will be allowed
+                    (ref. MVHF-BU-SW-REQ-8-2).
+
+    Traceability:   MVHF-BU-SYS-REQ-8
+---
+    Requirement:    MVHF-BU-SW-REQ-8-5
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          ACTIVE AVERAGING TIMESPAN AVAILABLE VIA RPC CALL
+
+    Text:           The client shall output the active averaging timespan
+                    (in number of seconds) in the 'difficultytimespan'
+                    field returned by the 'getblockchaininfo' RPC call.
+
+    Rationale:      To let users inspect the current difficulty averaging
+                    timespan, and also to let automated software tests
+                    verify that expected averaging timespans are observed.
 
     Notes:          -
 
