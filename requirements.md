@@ -503,7 +503,7 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
                     retargeting immediately after the fork, to compensate
                     for rapid changes in hashpower.
 
-    Traceability:   MVHF-BU-USER-REQ-7
+    Traceability:   MVHF-BU-USER-REQ-7, MVHF-BU-SW-REQ-7-1
 ---
     Requirement:    MVHF-BU-SYS-REQ-8
 
@@ -534,7 +534,9 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
                     3. The design shall accomodate the retargeting period
                     and averaging timespan as independent variables.
 
-    Traceability:   MVHF-BU-USER-REQ-8
+    Traceability:   MVHF-BU-USER-REQ-8, MVHF-BU-SW-REQ-8-1,
+                    MVHF-BU-SW-REQ-8-2, MVHF-BU-SW-REQ-8-3,
+                    MVHF-BU-SW-REQ-8-4, MVHF-BU-SW-REQ-8-5
 ---
     Requirement:    MVHF-BU-SYS-REQ-9
 
@@ -551,9 +553,17 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
 
     Rationale:      refer to MVHF-BU-USER-REQ-9
 
-    Notes:          refer to MVHF-BU-USER-REQ-9
+    Notes:          The design may choose to allow a "grace period" of a
+                    configurable number of blocks after the fork during
+                    which old-style signatures are still accepted.
+                    System validation must show whether there is a need for
+                    such a grace period (it may be that an abrupt cutover
+                    leads to some as yet unknown problems).
 
-    Traceability:   MVHF-BU-USER-REQ-9
+    Traceability:   MVHF-BU-USER-REQ-9, MVHF-BU-SW-REQ-1-1,
+                    MVHF-BU-SW-REQ-9-1, MVHF-BU-SW-REQ-9-2,
+                    MVHF-BU-SW-REQ-9-3, MVHF-BU-SW-REQ-9-4,
+                    MVHF-BU-SW-REQ-9-5
 ---
     Requirement:    MVHF-BU-SYS-REQ-10
 
@@ -617,7 +627,7 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
                     separate chain:
                     - fixed fork height
                     - network port which fork network nodes will listen on after fork triggering
-                    - fork ID to use for signature change
+                    - fork ID (chain ID) to use for signature change
 
     Rationale:      Extracting the fork parameters to user configuration will
                     allow for easier testing without recompilation.
@@ -1021,6 +1031,132 @@ Draft of Minimum Viable Hard Fork based on Bitcoin Unlimited
     Notes:          -
 
     Traceability:   MVHF-BU-SYS-REQ-8
+---
+    Requirement:    MVHF-BU-SW-REQ-9-1
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          CONFIGURABLE FORK ID (CHAIN ID)
+
+    Text:           The system shall accept a configuration parameter
+                    termed the 'fork id' (a.k.a 'chain id') which shall be
+                    a nonnegative integer in the range 0..(2^24)-1.
+
+    Rationale:      refer to MVHF-BU-USER-REQ-9
+
+    Notes:          See MVHF-BU-SW-REQ-9-3 for how the chain id modifies
+                    the transaction hash and thus the signature.
+                    Using a value of 0 would mean no change of signature
+                    (i.e. disable the replay protection).
+                    Clients could validate transactions against as many
+                    'chain ids' as they would like - this could allow
+                    forks to be explicitly made compatible w.r.t. replay.
+
+    Traceability:   MVHF-BU-SYS-REQ-9
+---
+    Requirement:    MVHF-BU-SW-REQ-9-2
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          CONFIGURABLE REPLAY GRACE PERIOD
+
+    Text:           The system shall accept a configuration parameter
+                    termed the 'replay grace period' which shall be
+                    a nonnegative integer in the range 0..144 signifying
+                    the number of blocks after the fork activation
+                    during which transaction signatures of the old chain
+                    shall still be accepted as valid.
+
+    Rationale:      refer to MVHF-BU-USER-REQ-9
+
+    Notes:          The grace period parameter is intended to help clear
+                    out any pre-fork transactions from any system buffers.
+                    Transactions emitted by the MVF clients after the fork
+                    shall by be signed with the configured chain id, making
+                    them distinct from pre-fork transactions.
+                    This parameter only governs the acceptance of received
+                    transactions.
+                    A grace period of 0 is permitted for test purposes.
+                    A safe default value needs to be established through
+                    testing.
+
+    Traceability:   MVHF-BU-SYS-REQ-9
+---
+    Requirement:    MVHF-BU-SW-REQ-9-3
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          POST-FORK SIGNING OF TRANSACTIONS
+
+    Text:           Once the fork has activated, transactions shall be
+                    signed on the basis of a modified signature hash
+                    which will incorporate the fork id (chain id).
+                    The high 24 bits of the 32-bit hashtype which is
+                    appended to the serialized transaction will be OR'ed
+                    with the 24 bits of the fork id to modify the signature
+                    hash prior to signing.
+
+    Rationale:      refer to MVHF-BU-USER-REQ-9
+
+    Notes:          Modified signatures will be generated immediately
+                    after the fork.
+                    Validation of received transactions is subject to
+                    a configurable grace period (see MVHF-BU-SW-REQ-9-4).
+
+    Traceability:   MVHF-BU-SYS-REQ-9
+---
+    Requirement:    MVHF-BU-SW-REQ-9-4
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          POST-FORK VALIDATION OF TRANSACTIONS
+
+    Text:           Once the fork has activated, transactions using the
+                    pre-fork signature scheme (i.e. fork id equal to zero)
+                    shall be considered invalid if the current block height
+                    exceeds the fork activation height plus the number of
+                    blocks configured for the grace period.
+
+    Rationale:      refer to MVHF-BU-USER-REQ-9
+
+    Notes:          Within the grace period, old-style transactions are still
+                    accepted and mined. After the grace period, only
+                    transactions which validate according to the configured
+                    fork id (chain id) shall be processed.
+
+    Traceability:   MVHF-BU-SYS-REQ-9
+---
+    Requirement:    MVHF-BU-SW-REQ-9-5
+
+    Origin:         BTCfork
+
+    Type:           Functional
+
+    Title:          REMOVAL OF TRANSACTIONS CONSIDERED INVALID AFTER GRACE
+
+    Text:           When the active chain block height is about to leave the
+                    transaction validation grace period (i.e. when the next
+                    block would be outside of the grace period), any
+                    transactions which would be considered invalid according
+                    to the fork id (chain id) signature rules shall be
+                    removed from the memory pool.
+
+    Rationale:      refer to MVHF-BU-USER-REQ-9
+
+    Notes:          This 'purging of invalid transactions from the memory
+                    pool' is considered necessary to ensure that the blocks
+                    mined after the grace period do not contain any old-style
+                    transaction signatures which could be rejected.
+
+    Traceability:   MVHF-BU-SYS-REQ-9
 ---
     Requirement:    MVHF-BU-SW-REQ-10-1
 
