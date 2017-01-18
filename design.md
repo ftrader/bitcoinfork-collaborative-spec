@@ -254,6 +254,13 @@ The active fork height value will be stored in a global variable
 ####5.1.5 New variables and config file for tracking fork activation states
 
 
+Global variables used for tracking fork activation and other MVF-specific
+state will be relocated to new MVF-specific files:
+
+- mvf-bu-globals.h
+- mvf-bu-globals.cpp
+
+
 #####5.1.5.1 New global variables (MVHF-BU-DES-TRIG-5)
 
 A new boolean global variable, isMVFHardForkActive, will be added to
@@ -291,7 +298,9 @@ configuration items into a separate configuration file (btcfork.conf) in
 the datadir.
 
 If this file is present during startup, the client software will know
-that the fork has been activated already.
+that the fork has been activated already, and read in fork-critical values
+from this file, overriding values for these configuration items passed in
+through other configuration methods.
 
 Primarily, this will be used to connect to the new (forked) network instead
 of the old network.
@@ -311,7 +320,8 @@ TODO: elaborate
 1. network separation actions (NSEP)
 2. difficulty reset and initialization of recovery algorithm (DIAD)
 3. activation of modified SIGHASH values (CSIG)
-4. set isMVFHardForkActive to true
+4. set to accept blocks up to 2MB and generate up to 2MB blocks
+5. set isMVFHardForkActive to true
 
 
 ####5.1.7 Fork deactivation procedure (MVHF-BU-DES-TRIG-7)
@@ -326,7 +336,8 @@ TODO: elaborate
 
 1. difficulty back to pre-fork, reset of recovery algorithm (DIAD)
 2. revert to pre-fork SIGHASH values (CSIG)
-3. set isMVFHardForkActive to false
+3. revert to pre-fork EB/MGS settings
+4. set isMVFHardForkActive to false
 
 
 ####5.1.8 Help information about new configuration parameters (MVHF-BU-DES-TRIG-8)
@@ -350,6 +361,18 @@ Additionally, the `softforks` section will be extended with the details on
 the SegWit soft-fork in the same way that Core provides this information.
 
 
+####5.1.10 Increased EB/MGS after fork (MVHF-BU-DES-TRIG-11)
+
+When the fork activates, minimum values of 2,000,000 bytes (2MB) will
+take effect for the Excessive Blocksize (EB) and Mining Generation Size
+(MGS) parameters which govern the maximal size of immediately accepted and
+generated blocks respectively.
+
+If user configuration values exceed these 2MB minima, they are used instead.
+
+Should the fork deactivate, the previous EB/MGS settings shall be re-instituted.
+
+
 ###5.2 Network Separation (NSEP)
 
 To be completed: network separation actions
@@ -361,8 +384,34 @@ The following NSEP-related parameters and functions that are needed in
 other files will be extracted into MVF-BU specific common files:
 
 - default value for post-fork network port
+- message start bytes to use for P2P protocol messages after fork activation
 
 See 5.1.1 (TODO: check reference accuracy) for description of the common files.
+
+
+####5.2.2 Change of network message start bytes at fork activation (MVHF-BU-DES-NSEP-2)
+
+The following network message start bytes (netmagic) will be used
+for P2P messages once the fork has activated:
+
+- mainnet:    0xf9, 0xbe, 0xb4, 0xd9
+- testnet:    0x0b, 0x11, 0x09, 0x07
+- regtestnet: 0xf9, 0xbe, 0xb4, 0xd9
+- nolnet:     0xfa, 0xce, 0xc4, 0xe9
+
+TODO: modify the above - they are currently pre-fork default placeholders
+
+These new netmagic values shall remain in effect even if the fork is
+deactivated again - the networks remain split this way.
+
+
+####5.2.3 Change of network seeds (MVHF-BU-DES-NSEP-3)
+
+The MVF client will use its own network peer lists for DNS and static
+IP peers.
+
+Officially released versions (incl. source-only test releases) will not
+contain any seeds from the existing network in their lists.
 
 
 ###5.3 Difficulty Adjustment (DIAD)
@@ -746,8 +795,9 @@ MVHF-BU-SW-REQ-2-2 | MVHF-BU-DES-TRIG-2,MVHF-BU-DES-TRIG-6
 MVHF-BU-SW-REQ-2-3 | MVHF-BU-DES-TRIG-5
 MVHF-BU-SW-REQ-2-4 | MVHF-BU-DES-TRIG-9
 MVHF-BU-SW-REQ-2-5 | MVHF-BU-DES-TRIG-10
-MVHF-BU-SW-REQ-5-1 | MVHF-BU-DES-NSEP-1
-MVHF-BU-SW-REQ-6-1 | TODO
+MVHF-BU-SW-REQ-4-1 | MVHF-BU-DES-TRIG-11
+MVHF-BU-SW-REQ-5-1 | MVHF-BU-DES-NSEP-1,MVHF-BU-DES-NSEP-2
+MVHF-BU-SW-REQ-6-1 | MVHF-BU-DES-NSEP-3
 MVHF-BU-SW-REQ-7-1 | MVHF-BU-DES-DIAD-1,MVHF-BU-DES-DIAD-2
 MVHF-BU-SW-REQ-8-1 | MVHF-BU-DES-DIAD-1,MVHF-BU-DES-DIAD-3,MVHF-BU-DES-DIAD-4,MVHF-BU-DES-DIAD-6
 MVHF-BU-SW-REQ-8-2 | MVHF-BU-DES-DIAD-5
@@ -786,12 +836,14 @@ MVHF-BU-DES-TRIG-7 | MVHF-BU-SW-REQ-1-2
 MVHF-BU-DES-TRIG-8 | MVHF-BU-SW-REQ-1-3
 MVHF-BU-DES-TRIG-9 | MVHF-BU-SW-REQ-2-4
 MVHF-BU-DES-TRIG-10| MVHF-BU-SW-REQ-2-5
+MVHF-BU-DES-TRIG-11| MVHF-BU-SW-REQ-4-1
 MVHF-BU-DES-WABU-1 | MVHF-BU-SW-REQ-10-1
 MVHF-BU-DES-WABU-2 | MVHF-BU-SW-REQ-10-1,MVHF-BU-SW-REQ-10-6
 MVHF-BU-DES-WABU-3 | MVHF-BU-SW-REQ-10-2
 MVHF-BU-DES-WABU-4 | MVHF-BU-SW-REQ-10-3,MVHF-BU-SW-REQ-10-4
 MVHF-BU-DES-WABU-5 | MVHF-BU-SW-REQ-10-5
-MVHF-BU-DES-NSEP-1 | MVHF-BU-SW-REQ-5-1
+MVHF-BU-DES-NSEP-1,MVHF-BU-DES-NSEP-2 | MVHF-BU-SW-REQ-5-1
+MVHF-BU-DES-NSEP-3 | MVHF-BU-SW-REQ-6-1
 MVHF-BU-DES-DIAD-1 | MVHF-BU-SW-REQ-7-1,MVHF-BU-SW-REQ-8-1
 MVHF-BU-DES-DIAD-2 | MVHF-BU-SW-REQ-7-1
 MVHF-BU-DES-DIAD-3,MVHF-BU-DES-DIAD-4,MVHF-BU-DES-DIAD-6 | MVHF-BU-SW-REQ-8-1
